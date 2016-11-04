@@ -8,6 +8,7 @@ import Root from './Root'
 import Foo from './Foo'
 import MainLayout from './MainLayout'
 import './index.css'
+import '../../semantic/dist/semantic.min.css'
 
 // see https://github.com/ReactTraining/react-router
 render((
