@@ -6,7 +6,8 @@ import BodyContainer from './BodyContainer';
 class MainLayout extends Component {
   constructor(){
     super();
-    this.state = {articles: []};
+    this.state = {articles: []
+                  };
     this.handleSearchInput = this.handleSearchInput.bind(this);
   }
 
