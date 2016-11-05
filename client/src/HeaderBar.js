@@ -10,12 +10,20 @@ class HeaderBar extends Component{
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
+        this.handleUserAccount=this.handleUserAccount.bind(this);
     }
 
     handleChange(){
         var articles=[{'id': '1', 'title': 'java'}, {'id': '2', 'title': 'C++'}];
         //To Do: get data from database and update articles array
         this.props.onSearchInput(articles);
+    }
+
+    handleUserAccount(){
+      //To Do: get postArticles and savedArticles from database
+      var postArticles=[{'id': '1', 'title': 'java'}];
+      var savedArticles=[{'id': '2', 'title': 'C++'}];
+      this.props.onClickUser(postArticles, savedArticles);
     }
 
     render(){
@@ -38,7 +46,7 @@ class HeaderBar extends Component{
                             </div>
                         </div>
                         <div className="item">
-                            <a>Logout</a>
+                            <i className='user icon' onClick={this.handleUserAccount}></i>
                         </div>
                     </div>
                 </div>

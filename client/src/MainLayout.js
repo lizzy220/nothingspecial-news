@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './MainLayout.css';
 import HeaderBar from './HeaderBar';
-import BodyContainer from './BodyContainer';
+import {HomeBodyContainer,UserAccountBodyContainer} from './BodyContainer';
 
 class MainLayout extends Component {
   constructor(){
@@ -25,7 +25,7 @@ class MainLayout extends Component {
         <HeaderBar onSearchInput={this.handleSearchInput} />
 
         <main>
-          <BodyContainer articles={this.state.articles}/>
+          <HomeBodyContainer articles={this.state.articles}/>
         </main>
       </div>
     );

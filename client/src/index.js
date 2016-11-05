@@ -7,7 +7,7 @@ import { Router, Route, browserHistory } from 'react-router'
 import Root from './Root'
 import Foo from './Foo'
 import MainLayout from './MainLayout'
-import BodyContainer from './BodyContainer';
+import {HomeBodyContainer,UserAccountBodyContainer} from './BodyContainer';
 import './index.css'
 import '../../semantic/dist/semantic.min.css'
 
@@ -15,7 +15,7 @@ import '../../semantic/dist/semantic.min.css'
 render((
   <Router history={browserHistory}>
     <Route component={MainLayout}>
-      <Route path="/" component={BodyContainer}/>
+      <Route path="/" component={HomeBodyContainer}/>
       <Route path="/foo" component={Foo}/>
     </Route>
   </Router>

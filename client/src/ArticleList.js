@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Accordion, Icon} from 'semantic-ui-react'
+import './MainLayout.css';
 
 class ArticleItemsList extends Component{
   constructor(){
@@ -28,6 +29,7 @@ class ArticleItem extends Component{
 
   handleClick(){
     this.props.onArticleClick(this.props.articleInfo.id);
+    this.setState({divStyle: {backgroundColor: '#00B5AD'}})
   }
 
   render(){
