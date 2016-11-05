@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Accordion, Icon } from 'semantic-ui-react'
+import { Accordion, Icon} from 'semantic-ui-react'
 
 class ArticleItemsList extends Component{
   constructor(){
@@ -13,9 +13,9 @@ class ArticleItemsList extends Component{
 
   render(){
     return(
-      <ul>
+      <div className="ui middle aligned animated list">
         {this.props.articles.map((article)=><ArticleItem key={article.id} articleInfo={article} onArticleClick={this.handleClick} />)}
-      </ul>
+      </div>
     );
   }
 }
@@ -32,7 +32,7 @@ class ArticleItem extends Component{
 
   render(){
     return(
-      <li onClick={this.handleClick}>{this.props.articleInfo.title}</li>
+      <div className="item" onClick={this.handleClick}>{this.props.articleInfo.title}</div>
     );
   }
 }
@@ -69,7 +69,7 @@ class PostSavedList extends Component{
   }
 }
 
-export default ArticleItemsList;
 module.exports={
-  PostSavedList
+  PostSavedList,
+  ArticleItemsList
 }
