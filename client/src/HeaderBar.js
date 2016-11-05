@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'semantic-ui-react'
+import { Button, Modal, Icon } from 'semantic-ui-react'
 
 var amazingInlineJsStyle = {
     fontFamily: 'fantasy',
@@ -105,5 +105,6 @@ class AddPostModal extends Component{
         );
     }
 }
+
 
 export default HeaderBar;
