@@ -1,20 +1,32 @@
 import React, { Component } from 'react';
-
-import logo from './logo.svg';
 import './MainLayout.css';
+import HeaderBar from './HeaderBar';
+import BodyContainer from './BodyContainer';
 
 class MainLayout extends Component {
+  constructor(){
+    super();
+    this.state = {articles: []};
+    this.handleSearchInput = this.handleSearchInput.bind(this);
+  }
+
+  componentDidMount(){
+    //To Do: read top 20 articles from database as initial articles
+  }
+
+  handleSearchInput(articles){
+    this.setState({articles: articles});
+  }
 
   render() {
     return (
       <div className="MainLayout">
         <div className="MainLayout__header">
-          <img src={logo} className="MainLayout__logo" alt="logo" />
-          <h2>San Dimas High School Football</h2>
+          <HeaderBar onSearchInput={this.handleSearchInput} />
         </div>
 
         <main>
-          {this.props.children}
+          <BodyContainer articles={this.state.articles}/>
         </main>
       </div>
     );
