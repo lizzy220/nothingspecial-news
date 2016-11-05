@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -8,113 +8,104 @@
     <script src="//cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.js"></script>
     <script src="public/indexlayout.js"></script>
     <title>Breaking News</title>
-  </head>
-  <body>
-    <div id="root">
-      <div class="ui top attached secondary inverted teal menu">
+    <style>
+        #root {
+            height: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="root">
+    <div class="ui grid top attached secondary inverted teal menu menu_bar">
         <a class="active item">
-          <i class="home icon"></i> Home
+            <i class="home icon"></i> Home
         </a>
         <a class="item">
-          <i class="edit icon"></i> Manage My Posts
+            <i class="edit icon"></i> Manage My Posts
         </a>
         <a class="item">
-          <i class="user icon"></i> Manage My Profile
+            <i class="user icon"></i> Manage My Profile
         </a>
         <a class="item" data-title="Using click events"
-        data-content="popup window test">
-          <i class="add circle icon"></i> Add New Article
+           data-content="popup window test">
+            <i class="add circle icon"></i> Add New Article
         </a>
         <div class="right menu">
-           <div class="item">
-              <div class="ui icon input">
-                 <input type="text" placeholder="Search...">
-                 <i class="search link icon"></i>
-              </div>
-          </div>
-          <a class="item">
-             Logout
-          </a>
-       </div>
-      </div>
-      <div class="ui bottom attached segment pushable">
-       <div class="ui visible left vertical sidebar menu">
-          <a class="item">
-             <i class="newspaper icon"></i>
-             Title 1
-          </a>
-          <a class="item">
-             <i class="smile icon"></i>
-            Title 2
-          </a>
-          <a class="item">
-             <i class="smile icon"></i>
-              Title 3
-          </a>
-          <a class="item">
-             <i class="record icon"></i>
-             Title 4
-          </a>
-       </div>
-       <div class="pusher">
-         <div class="ui basic segment">
-            <h2 class="ui header">Article Title</h2>
-            <div class="ui labeled button" tabindex="0">
-               <div class="ui basic teal button">
-               <i class="heart icon"></i> Like
-               </div>
-               <a class="ui basic teal left pointing label">
-                  1,048
-               </a>
+            <div class="ui stackable grid">
+                <div class="item">
+                    <div class="ui icon input">
+                        <input type="text" placeholder="Search...">
+                        <i class="search link icon"></i>
+                    </div>
+                </div>
+                <a class="item">
+                    Logout
+                </a>
             </div>
-            <p>hello</p>
-            <p>we</p>
-            <p>are</p>
-            <p>breanking news</p>
-            <p>hello</p>
-            <p>we</p>
-            <p>are</p>
-            <p>breanking news</p>
-            <p>hello</p>
-            <p>we</p>
-            <p>are</p>
-            <p>breanking news</p>
-            <p>hello</p>
-            <p>we</p>
-            <p>are</p>
-            <p>breanking news</p>
-            <p>hello</p>
-            <p>we</p>
-            <p>are</p>
-            <p>breanking news</p>
-            <p>hello</p>
-            <p>we</p>
-            <p>are</p>
-            <p>breanking news</p>
         </div>
-       </div>
-       <div class="ui visible right vertical sidebar menu">
-          <a class="item">
-            <i class="user icon"></i>
-            <div class="ui message"><p>Comments from poster</p></div>
-         </a>
-         <a class="item">
-           <i class="user icon"></i>
-           <div class="ui message"><p>Comments from other</p></div>
-         </a>
-         <a class="item">
-            <i class="user icon"></i>
-            <div class="ui message"><p>Comments from other</p></div>
-         </a>
-         <a class="item">
-            <i class="user icon"></i>
-            <div class="ui icon input">
-               <input type="text" placeholder="Add your comment...">
-               <i class="send icon" cursor="pointer"></i>
-           </div>
-         </a>
-       </div>
-      </div>
     </div>
-  </body>
+    <div class="ui stackable gird bottom attached segment pushable">
+        <div class="ui visible left vertical sidebar menu column">
+            <a class="item">
+                <i class="newspaper icon"></i>
+                Title 1
+            </a>
+            <a class="item">
+                <i class="smile icon"></i>
+                Title 2
+            </a>
+            <a class="item">
+                <i class="smile icon"></i>
+                Title 3
+            </a>
+            <a class="item">
+                <i class="record icon"></i>
+                Title 4
+            </a>
+        </div>
+        <div class="pusher">
+            <div class="ui basic segment ">
+                <h2 class="ui header">Article Title</h2>
+                <div class="ui labeled button" tabindex="0">
+                    <div class="ui basic teal button">
+                        <i class="heart icon"></i> Like
+                    </div>
+                    <a class="ui basic teal left pointing label">
+                        1,048
+                    </a>
+                </div>
+                <p>hello</p>
+                <p>we</p>
+                <p>are</p>
+                <p>breanking news</p>
+
+            </div>
+        </div>
+        <div class="ui grid visible right vertical sidebar menu column">
+            <a class="item">
+                <i class="user icon"></i>
+                <div class="ui message"><p>Comments from poster</p></div>
+            </a>
+            <a class="item">
+                <i class="user icon"></i>
+                <div class="ui message"><p>Comments from other</p></div>
+            </a>
+            <a class="item">
+                <i class="user icon"></i>
+                <div class="ui message"><p>Comments from other</p></div>
+            </a>
+            <a class="item">
+                <i class="user icon"></i>
+                <div class="ui icon input">
+                    <input type="text" placeholder="Add your comment...">
+                    <i class="send icon" cursor="pointer"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+</body>
 </html>
