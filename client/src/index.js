@@ -7,6 +7,7 @@ import { Router, Route, browserHistory } from 'react-router'
 import Root from './Root'
 import Foo from './Foo'
 import MainLayout from './MainLayout'
+import ArticleItemsList from './ArticleList'
 import './index.css'
 import '../../semantic/dist/semantic.min.css'
 

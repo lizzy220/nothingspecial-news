@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
-
-import logo from './logo.svg';
 import './MainLayout.css';
+import HeaderBar from './HeaderBar';
 
 class MainLayout extends Component {
+  constructor(){
+    super();
+    this.state = {filterText: '',
+                  articles: [],
+                  clickedArticleId: ''};
+    this.handleSearchInput = this.handleSearchInput.bind(this);
+  }
+
+  componentDidMount(){
+    
+  }
+
+  handleSearchInput(filterText){
+    this.setState({filterText: filterText});
+  }
 
   render() {
     return (
       <div className="MainLayout">
         <div className="MainLayout__header">
-          <img src={logo} className="MainLayout__logo" alt="logo" />
-          <h2>San Dimas High School Football</h2>
+          <HeaderBar onSearchInput={this.handleSearchInput} />
         </div>
 
         <main>
