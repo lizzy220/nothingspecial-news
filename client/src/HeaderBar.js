@@ -8,7 +8,9 @@ class HeaderBar extends Component{
   }
 
   handleChange(){
-    this.props.onSearchInput(this.refs.filterTextInput.value);
+    var articles=[{'id': '1', 'title': 'java'}, {'id': '2', 'title': 'C++'}];
+    //To Do: get data from database and update articles array
+    this.props.onSearchInput(articles);
   }
 
   render(){

@@ -13,7 +13,7 @@ class ArticleItemsList extends Component{
   render(){
     return(
       <ul>
-        {this.state.articles.map((article)=><ArticleItem articleInfo={article} onArticleClick={this.handleClick} />)}
+        {this.props.articles.map((article)=><ArticleItem key={article.id} articleInfo={article} onArticleClick={this.handleClick} />)}
       </ul>
     );
   }
@@ -31,7 +31,7 @@ class ArticleItem extends Component{
 
   render(){
     return(
-      <li key={this.props.articleInfo.id} onclick={this.handleClick}>{this.props.articleInfo.title}</li>
+      <li onClick={this.handleClick}>{this.props.articleInfo.title}</li>
     );
   }
 }

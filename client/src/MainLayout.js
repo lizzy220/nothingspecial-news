@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import './MainLayout.css';
 import HeaderBar from './HeaderBar';
+import BodyContainer from './BodyContainer';
 
 class MainLayout extends Component {
   constructor(){
     super();
-    this.state = {filterText: '',
-                  articles: [],
-                  clickedArticleId: ''};
+    this.state = {articles: []};
     this.handleSearchInput = this.handleSearchInput.bind(this);
   }
 
   componentDidMount(){
-    
+    //read top20 articles from database
   }
 
-  handleSearchInput(filterText){
-    this.setState({filterText: filterText});
+  handleSearchInput(articles){
+    this.setState({articles: articles});
   }
 
   render() {
@@ -27,7 +26,7 @@ class MainLayout extends Component {
         </div>
 
         <main>
-          {this.props.children}
+          <BodyContainer articles={this.state.articles}/>
         </main>
       </div>
     );
