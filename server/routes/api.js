@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var mongo = require('./mongo_connection');
-import * as bodyParser from "express/lib/response";
+var bodyParser = require('body-parser');
+router.use(bodyParser.json()); // support json encoded bodies
+router.use(bodyParser.urlencoded({ extended: true }));
 
 function insertdb(collection, record, callback){
     var insertUser = function(err,db){
-        db.collection(collection).insert(record, callback);
+        db.collection(collection).insert(record, function(err, record) {
+            callback(err, record);
+        });
         db.close();
     }
     mongo.connect(insertUser);
@@ -13,14 +17,14 @@ function insertdb(collection, record, callback){
 
 function getdball(collection, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').find().toArray(function(err, result, callback){
+        db.collection('Article').find().toArray(function(err, result){
             if (err) {
                 console.log(err);
             } else if (result.length) {
                 callback(result)
             } else {
                 // console.log('No document(s) found with defined "find" criteria!');
-                callback([])
+                callback({})
             }
             //Close connection
             db.close();
@@ -31,7 +35,7 @@ function getdball(collection, callback) {
 
 function getdbbyid(collection, id, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').find(id).toArray(function(err, result, callback){
+        db.collection('Article').find(id).toArray(function(err, result){
             if (err) {
                 console.log(err);
             } else if (result.length) {
@@ -47,8 +51,6 @@ function getdbbyid(collection, id, callback) {
     return mongo.connect(getResults);
 }
 
-router.use(bodyParser.json()); // support json encoded bodies
-router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/articles/list', function(req, res) {
     getdball('Article', function(articles) {
@@ -62,21 +64,21 @@ router.get('/articles/article/:id', function(req, res) {
     })
 });
 
-router.post('/articles/new', function(req, res) {
-    var article = req.body.location
+router.post("/articles/new", function(req, res) {
+    var article = req.body
     article['timestamp'] = Date.now()
     article['visable'] = true
     article['tags'] = []
     article['comments'] = []
-    get_article_content(article, function(article) {
-        if (article['article']['url'] == '') {
+    get_article_content(article, function(filledArticle) {
+        if (filledArticle['url'] == '') {
             res.status(400)
         } else {
-            insertdb('Article', article, function(err, record) {
+            insertdb('Article', filledArticle, function(err, record) {
                 if (err) {
                     res.status(400)
                 } else {
-                    res.json({'id': record._id})
+                    res.json({"_id": record._id})
                 }
             })
         }
@@ -88,15 +90,15 @@ router.post('/articles/new', function(req, res) {
 function get_article_content(article, callback) {
     var https = require('https');
     return https.get({
-        host: 'https://shutupandgivemethecontent.herokuapp.com/api/article',
-        path: '/email?url=' + article['url']
+        host: 'shutupandgivemethecontent.herokuapp.com',
+        path: '/api/article?url=' + article['url']
+
     }, function(response) {
         var body = '';
         response.on('data', function(d) {
             body += d;
         });
         response.on('end', function() {
-
             // Data reception is done, do whatever with it!
             var parsed = JSON.parse(body);
             article['content'] = parsed['article']
@@ -105,10 +107,11 @@ function get_article_content(article, callback) {
     });
 };
 
+module.exports = router;
 
-router.post('/articles/save/:id', function(req, res) {
-
-});
+// router.post('/articles/save/:id', function(req, res) {
+//
+// });
 // var movies = require('../data/movies.json')
 
 // // allow easy lookup by id
@@ -139,4 +142,4 @@ router.post('/articles/save/:id', function(req, res) {
 //
 // });
 
-module.exports = router;
+
