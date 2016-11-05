@@ -7,12 +7,10 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 function insertdb(collection, record, callback){
     var insertUser = function(err,db){
-        db.collection(collection).insert(record, function(err, record) {
-            callback(err, record);
-        });
+        db.collection(collection).insert(record, callback)
         db.close();
     }
-    mongo.connect(insertUser);
+    return mongo.connect(insertUser);
 }
 
 function getdball(collection, callback) {
@@ -65,22 +63,22 @@ router.get('/articles/article/:id', function(req, res) {
 });
 
 router.post("/articles/new", function(req, res) {
-    var article = req.body
-    article['timestamp'] = Date.now()
-    article['visable'] = true
-    article['tags'] = []
-    article['comments'] = []
+    var article = req.body;
+    article['timestamp'] = Date.now();
+    article['visable'] = true;
+    article['tags'] = [];
+    article['comments'] = [];
     get_article_content(article, function(filledArticle) {
         if (filledArticle['url'] == '') {
-            res.status(400)
+            res.status(400);
         } else {
             insertdb('Article', filledArticle, function(err, record) {
-                if (err) {
-                    res.status(400)
+                if (!err) {
+                    res.json({"_id": record.ops[0]._id});
                 } else {
-                    res.json({"_id": record._id})
+                    res.status(400);
                 }
-            })
+            });
         }
     })
 
