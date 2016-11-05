@@ -11,9 +11,27 @@ function insertdb(collection, record, callback){
     mongo.connect(insertUser);
 }
 
-function getdb(collection, callback) {
+function getdball(collection, callback) {
     var getResults = function(err, db) {
         db.collection('Article').find().toArray(function(err, result, callback){
+            if (err) {
+                console.log(err);
+            } else if (result.length) {
+                callback(result)
+            } else {
+                // console.log('No document(s) found with defined "find" criteria!');
+                callback([])
+            }
+            //Close connection
+            db.close();
+        });
+    }
+    return mongo.connect(getResults);
+}
+
+function getdbbyid(collection, id, callback) {
+    var getResults = function(err, db) {
+        db.collection('Article').find(id).toArray(function(err, result, callback){
             if (err) {
                 console.log(err);
             } else if (result.length) {
@@ -33,13 +51,15 @@ router.use(bodyParser.json()); // support json encoded bodies
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/articles/list', function(req, res) {
-    getdb('Article', function(articles) {
+    getdball('Article', function(articles) {
         res.json(articles)
     })
 });
 
 router.get('/articles/article/:id', function(req, res) {
-
+    getdbbyid('Article', req.params.id, function(articles) {
+        res.json(articles[0])
+    })
 });
 
 router.post('/articles/new', function(req, res) {
@@ -49,17 +69,20 @@ router.post('/articles/new', function(req, res) {
     article['tags'] = []
     article['comments'] = []
     get_article_content(article, function(article) {
-        insertdb('Article', article, function(err, record) {
-            if (err) {
-                res.status(400)
-            } else {
-                res.json({'id': record._id})
-            }
-        })
+        if (article['article']['url'] == '') {
+            res.status(400)
+        } else {
+            insertdb('Article', article, function(err, record) {
+                if (err) {
+                    res.status(400)
+                } else {
+                    res.json({'id': record._id})
+                }
+            })
+        }
     })
 
 });
-
 
 
 function get_article_content(article, callback) {
