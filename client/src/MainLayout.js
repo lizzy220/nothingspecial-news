@@ -21,9 +21,7 @@ class MainLayout extends Component {
   render() {
     return (
       <div className="MainLayout">
-        <div className="MainLayout__header">
-          <HeaderBar onSearchInput={this.handleSearchInput} />
-        </div>
+        <HeaderBar onSearchInput={this.handleSearchInput} />
 
         <main>
           <BodyContainer articles={this.state.articles}/>
