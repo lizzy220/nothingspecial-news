@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'semantic-ui-react'
 
+var amazingInlineJsStyle = {
+    fontFamily: 'fantasy',
+    fontSize: '1.5em',
+}
+
 class HeaderBar extends Component{
     constructor() {
         super();
@@ -13,11 +18,14 @@ class HeaderBar extends Component{
         this.props.onSearchInput(articles);
     }
 
+
+
     render(){
         return(
             <div className="ui  grid top attached secondary inverted teal menu HeaderBar">
-                <a className="item">
-                    <i className="home icon"></i> Home
+                <a className="item" style={amazingInlineJsStyle}>
+                    {/*<i className="home icon"></i> */}
+                    Nothing Special
                 </a>
                 <a className="item">
                     <i className="edit icon"></i>My Posts
@@ -67,9 +75,9 @@ class AddPostModal extends Component{
         const { open, dimmer } = this.state
         return(
             <div className="AddPostModal ui grid">
-                <a className='item' onClick={this.show(true)}><i className="add circle icon"></i>Add Post</a>
+                <a className='item' onClick={this.show(true)}><i className="add circle icon"></i>Share New Article</a>
                 <Modal dimmer={dimmer} open={open} onClose={this.close}>
-                    <Modal.Header>Add a Post</Modal.Header>
+                    <Modal.Header>Share New Article</Modal.Header>
                     <Modal.Content>
                         <div className="PostContentTable">
                             <form className="ui form">
