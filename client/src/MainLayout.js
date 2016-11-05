@@ -11,7 +11,7 @@ class MainLayout extends Component {
   }
 
   componentDidMount(){
-    //read top20 articles from database
+    //To Do: read top 20 articles from database as initial articles
   }
 
   handleSearchInput(articles){
