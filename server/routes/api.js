@@ -74,7 +74,7 @@ router.post("/articles/new", function(req, res) {
         } else {
             insertdb('Article', filledArticle, function(err, record) {
                 if (!err) {
-                    res.json({"_id": record.ops[0]._id});
+                    res.json({"_id": record.ops[0]._id, "title": record.ops[0].title});
                 } else {
                     res.status(400);
                 }
