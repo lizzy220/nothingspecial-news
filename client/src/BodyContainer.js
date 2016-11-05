@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {PostSavedList, ArticleItemsList} from './ArticleList'
 import { Grid, Image, Segment, Divider } from 'semantic-ui-react'
 
-class BodyContainer extends Component{
-    constructor(){
-        super();
-        this.state={clickedArticleId: ''};
-        this.handleArticleClick=this.handleArticleClick.bind(this);
-    }
+class HomeBodyContainer extends Component{
+  constructor(){
+    super();
+    this.state={clickedArticleId: ''};
+    this.handleArticleClick=this.handleArticleClick.bind(this);
+  }
 
     handleArticleClick(articleId){
         this.setState({clickedArticleId: articleId});
@@ -38,4 +38,13 @@ class BodyContainer extends Component{
     }
 }
 
-export default BodyContainer;
+class UserAccountBodyContainer extends Component{
+  constructor(){
+    super();
+  }
+}
+
+module.exports={
+  HomeBodyContainer,
+  UserAccountBodyContainer
+}
