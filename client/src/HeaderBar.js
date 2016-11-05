@@ -6,7 +6,6 @@ var amazingInlineJsStyle = {
     fontSize: '1.5em',
 }
 
-
 class HeaderBar extends Component{
     constructor() {
         super();
@@ -18,8 +17,6 @@ class HeaderBar extends Component{
         //To Do: get data from database and update articles array
         this.props.onSearchInput(articles);
     }
-
-
 
     render(){
         return(
@@ -48,7 +45,6 @@ class HeaderBar extends Component{
             </div>
         )
     }
-
 }
 
 class AddPostModal extends Component{
@@ -106,6 +102,5 @@ class AddPostModal extends Component{
         );
     }
 }
-
 
 export default HeaderBar;
