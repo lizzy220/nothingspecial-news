@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, Icon } from 'semantic-ui-react'
+import { Button, Modal} from 'semantic-ui-react'
 import request from 'superagent';
 
 var amazingInlineJsStyle = {
@@ -16,9 +16,17 @@ class HeaderBar extends Component{
     }
 
     handleChange(){
-        var articles=[{'id': '1', 'title': 'java'}, {'id': '2', 'title': 'C++'}];
-        //To Do: get data from database and update articles array
-        this.props.onSearchInput(articles);
+        var self = this;
+        request
+         .get('/api/articles/search/' + self.refs.filterTextInput.value)
+         .set('Accept', 'application/json')
+         .end(function(err, res) {
+           if (err || !res.ok) {
+             console.log('fail to load initial list', err);
+           } else {
+             self.props.onSearchInput(res.body);
+           }
+         });
     }
 
     handleUserAccount(){

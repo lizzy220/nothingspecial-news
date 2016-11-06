@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {PostSavedList, ArticleItemsList} from './ArticleList';
-import { Grid, Image, Segment, Divider } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 import request from 'superagent';
+import ArticleContainer from './ArticleContainer';
 
 class HomeBodyContainer extends Component{
   constructor(){
@@ -13,7 +14,7 @@ class HomeBodyContainer extends Component{
   componentDidMount() {
     var self = this;
     request
-     .get('/api/articles/list')
+     .get('/api/articles/search')
      .set('Accept', 'application/json')
      .end(function(err, res) {
        if (err || !res.ok) {
@@ -41,7 +42,7 @@ class HomeBodyContainer extends Component{
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Segment basic>
-                            article column
+                            <ArticleContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={3}>
@@ -54,6 +55,28 @@ class HomeBodyContainer extends Component{
         );
     }
 }
+
+// class UserAccountBodyContainer extends Component{
+//   constructor(){
+//     super();
+//
+//   }
+//
+//   componentDidMount() {
+//     var self = this;
+//     request
+//      .get('/api/articles/list')
+//      .set('Accept', 'application/json')
+//      .end(function(err, res) {
+//        if (err || !res.ok) {
+//          console.log('fail to load initial list', err);
+//        } else {
+//          self.handleArticlesLoad(res.body);
+//        }
+//      });
+//   }
+//
+// }
 
 module.exports={
   HomeBodyContainer,
