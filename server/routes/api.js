@@ -10,7 +10,7 @@ function insertdb(collection, record, callback){
         db.collection(collection).insert(record, callback)
         db.close();
     }
-    return mongo.connect(insertUser);
+    mongo.connect(insertUser);
 }
 
 function getdball(collection, callback) {
@@ -68,12 +68,17 @@ router.post("/articles/new", function(req, res) {
     article['visable'] = true;
     article['tags'] = [];
     article['comments'] = [];
-    get_article_content(article, function(filledArticle) {
-        if (filledArticle['url'] == '') {
+    return get_article_content(article, function(filledArticle) {
+        // console.log(article)
+        if (filledArticle['content']['url'] == '') {
             res.status(400);
         } else {
+            delete filledArticle['content']['additionalData']
+            delete filledArticle['content']['entities']
             insertdb('Article', filledArticle, function(err, record) {
+                console.log(err)
                 if (!err) {
+                    console.log("Article inserted");
                     res.json({"_id": record.ops[0]._id, "title": record.ops[0].title});
                 } else {
                     res.status(400);
