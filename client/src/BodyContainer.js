@@ -38,7 +38,7 @@ class HomeBodyContainer extends Component{
             <Segment attached className='BodyContainer'>
                 <Grid divided>
                     <Grid.Column width={3} >
-                        <ArticleItemsList articles={this.props.articles} onArticleClick={this.handleArticleClick} />
+                        <ArticleItemsList clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Segment basic>

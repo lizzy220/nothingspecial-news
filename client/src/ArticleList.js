@@ -14,11 +14,21 @@ class ArticleItemsList extends Component{
 
   render(){
     return(
-      <div className="ui middle aligned animated list">
-        {this.props.articles.map((article)=><ArticleItem key={article._id} articleInfo={article} onArticleClick={this.handleClick} />)}
+      <div className="ui middle aligned animated list divided items">
+        {this.props.articles.map((article)=>
+          <ArticleItem key={article._id} clickedArticleId={this.props.clickedArticleId} articleInfo={article} onArticleClick={this.handleClick} />)}
       </div>
     );
   }
+}
+var clickedStyle={
+  boxShadow: '2px 2px 4px 1px  rgba(110,108,110,1)',
+  backgroundColor:'rgba(60, 63, 66, 1)',
+  color:'white',
+  fontSize: '1.4em',
+  width: '110%',
+  marginLeft: '-5%',
+  paddingLeft: '1em'
 }
 
 class ArticleItem extends Component{
@@ -29,12 +39,12 @@ class ArticleItem extends Component{
 
   handleClick(){
     this.props.onArticleClick(this.props.articleInfo._id);
-    this.setState({divStyle: {backgroundColor: '#00B5AD'}})
   }
 
   render(){
+    var tmp = this.props.clickedArticleId == this.props.articleInfo._id ? clickedStyle : {};
     return(
-      <div className="item" onClick={this.handleClick}>{this.props.articleInfo.title}</div>
+      <div style={tmp} className="item" onClick={this.handleClick}>{this.props.articleInfo.title}</div>
     );
   }
 }
