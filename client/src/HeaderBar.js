@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, Icon } from 'semantic-ui-react'
+import request from 'superagent';
 
 var amazingInlineJsStyle = {
     fontFamily: 'fantasy',
@@ -11,6 +12,7 @@ class HeaderBar extends Component{
         super();
         this.handleChange = this.handleChange.bind(this);
         this.handleUserAccount=this.handleUserAccount.bind(this);
+        this.handleNewPost=this.handleNewPost.bind(this);
     }
 
     handleChange(){
@@ -26,6 +28,10 @@ class HeaderBar extends Component{
       this.props.onClickUser(postArticles, savedArticles);
     }
 
+    handleNewPost(newArticle){
+      this.props.onNewPost(newArticle);
+    }
+
     render(){
         return(
             <div className="ui grid top attached secondary inverted teal menu HeaderBar">
@@ -36,7 +42,7 @@ class HeaderBar extends Component{
                 <a className="item">
                     <i className="edit icon"></i>My Posts
                 </a>
-                <AddPostModal />
+                <AddPostModal onNewPost={this.handleNewPost}/>
                 <div className="right menu">
                     <div className="ui grid">
                         <div className="item">
@@ -66,14 +72,26 @@ class AddPostModal extends Component{
     close = () => this.setState({ open: false })
 
     publishPost(){
+        var self = this;
         var data = {
             "title" : this.refs.titleInput.value,
-            "link": this.refs.linkInput.value,
+            "url": this.refs.linkInput.value,
             "description": this.refs.descriptionInput.value,
         };
-        //send to database
-        this.close();
 
+        request
+          .post('/api/articles/new')
+          .send(data)
+          .set('Accept', 'application/json')
+          .end(function(err, res){
+            if (err || !res.ok) {
+              alert('publish fail');
+            } else {
+              var newArticle = res.body;
+              self.props.onNewPost(newArticle);
+            }
+        });
+        this.close();
     }
 
     render(){

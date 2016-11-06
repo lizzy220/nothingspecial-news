@@ -15,7 +15,7 @@ class ArticleItemsList extends Component{
   render(){
     return(
       <div className="ui middle aligned animated list">
-        {this.props.articles.map((article)=><ArticleItem key={article.id} articleInfo={article} onArticleClick={this.handleClick} />)}
+        {this.props.articles.map((article)=><ArticleItem key={article._id} articleInfo={article} onArticleClick={this.handleClick} />)}
       </div>
     );
   }
@@ -28,7 +28,7 @@ class ArticleItem extends Component{
   }
 
   handleClick(){
-    this.props.onArticleClick(this.props.articleInfo.id);
+    this.props.onArticleClick(this.props.articleInfo._id);
     this.setState({divStyle: {backgroundColor: '#00B5AD'}})
   }
 

@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
-import {PostSavedList, ArticleItemsList} from './ArticleList'
-import { Grid, Image, Segment, Divider } from 'semantic-ui-react'
+import {PostSavedList, ArticleItemsList} from './ArticleList';
+import { Grid, Image, Segment, Divider } from 'semantic-ui-react';
+import request from 'superagent';
 
 class HomeBodyContainer extends Component{
   constructor(){
     super();
-    this.state={clickedArticleId: ''};
     this.handleArticleClick=this.handleArticleClick.bind(this);
+    this.handleArticlesLoad=this.handleArticlesLoad.bind(this);
+  }
+
+  componentDidMount() {
+    var self = this;
+    request
+     .get('/api/articles/list')
+     .set('Accept', 'application/json')
+     .end(function(err, res) {
+       if (err || !res.ok) {
+         console.log('fail to load initial list', err);
+       } else {
+         self.handleArticlesLoad(res.body);
+       }
+     });
+  }
+
+  handleArticlesLoad(articles){
+    this.props.onArticlesLoad(articles);
   }
 
     handleArticleClick(articleId){
-        this.setState({clickedArticleId: articleId});
+        this.props.onArticleClick(articleId);
     }
 
     render(){
-        var postArticles=[{'id': '1', 'title': 'java'}];
-        var savedArticles=[{'id': '2', 'title': 'C++'}];
         return(
             <Segment attached className='BodyContainer'>
                 <Grid divided>
                     <Grid.Column width={3} >
-                        <PostSavedList postArticles={postArticles} savedArticles={savedArticles} onArticleClick={this.handleArticleClick} />
+                        <ArticleItemsList articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Segment basic>
@@ -38,13 +55,6 @@ class HomeBodyContainer extends Component{
     }
 }
 
-class UserAccountBodyContainer extends Component{
-  constructor(){
-    super();
-  }
-}
-
 module.exports={
   HomeBodyContainer,
-  UserAccountBodyContainer
 }

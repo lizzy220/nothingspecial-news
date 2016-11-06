@@ -6,26 +6,29 @@ import {HomeBodyContainer,UserAccountBodyContainer} from './BodyContainer';
 class MainLayout extends Component {
   constructor(){
     super();
-    this.state = {articles: []
+    this.state = {articles: [],
+                  clickedArticleId: ''
                   };
-    this.handleSearchInput = this.handleSearchInput.bind(this);
+    this.handleArticlesLoad = this.handleArticlesLoad.bind(this);
+    this.handleNewPost = this.handleNewPost.bind(this);
   }
 
-  componentDidMount(){
-    //To Do: read top 20 articles from database as initial articles
+  handleNewPost(newArticle){
+    this.setState({articles: [newArticle].concat(this.state.articles)});
+    this.setState({clickedArticleId: newArticle._id});
   }
 
-  handleSearchInput(articles){
+  handleArticlesLoad(articles){
     this.setState({articles: articles});
   }
 
   render() {
     return (
       <div className="MainLayout">
-        <HeaderBar onSearchInput={this.handleSearchInput} />
+        <HeaderBar onSearchInput={this.handleArticlesLoad} onNewPost={this.handleNewPost}/>
 
         <main>
-          <HomeBodyContainer articles={this.state.articles}/>
+          <HomeBodyContainer articles={this.state.articles} onArticlesLoad={this.handleArticlesLoad} onArticleClick={this.handleArticleClick}/>
         </main>
       </div>
     );
