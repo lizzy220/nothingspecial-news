@@ -9,21 +9,20 @@ import MainLayout from './MainLayout';
 import {HomeBodyContainer,UserAccountBodyContainer} from './BodyContainer';
 import './index.css';
 import '../../semantic/dist/semantic.min.css';
-import SignupForm from './SignupForm';
+import SignupPage from './SignupPage';
 import LoginForm from './LoginForm';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import Routes from './Routes';
 
 
 
-const store = createStore(
-  (state = {}) => state,
-  applyMiddleware(thunk)
-);
 
-render(
-  <Provider store={store}>
-    <Router history={browserHistory} routes={Routes} />
-  </Provider>, document.getElementById('root'));
+export default (
+  <Router history={browserHistory}>
+    <Route component={MainLayout}>
+      <Route path="/" component={HomeBodyContainer}/>
+      <Route path="/foo" component={Foo}/>
+
+    </Route>
+    <Route path="/login" component={LoginForm}/>
+    <Route path="/signup" component={SignupPage}/>
+  </Router>
+)

@@ -3,6 +3,8 @@ var router = express.Router();
 var mongo = require('./mongo_connection');
 var bodyParser = require('body-parser');
 var ObjectId = require('mongodb').ObjectId;
+var Validator = require('validator');
+var isEmpty = require('lodash/isEmpty');
 router.use(bodyParser.json()); // support json encoded bodies
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -85,7 +87,6 @@ router.get('/articles/article/:id', function(req, res) {
     })
 });
 
-
 router.post("/articles/new", function(req, res) {
     var article = req.body;
     article['timestamp'] = Date.now();
@@ -134,4 +135,25 @@ function get_article_content(article, callback) {
     });
 };
 
+function validateInput(data){
+  let errors = {};
+  if(Validator.isEmpty(data.username)){
+    errors.username = 'This field is required';
+  }
+  if(Validator.isEmpty(data.password)){
+    errors.password  = 'This field is required';
+  }
+  return{
+    errors,
+    isValid: isEmpty(errors)
+  }
+}
+
+router.post("/users", function(req, res){
+  console.log(req.body);
+  const { errors, isValid } = validateInput(req.body);
+  if(!isValid){
+    res.status(400).json(errors);
+  }
+})
 module.exports = router;
