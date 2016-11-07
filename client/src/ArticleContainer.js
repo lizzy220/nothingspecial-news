@@ -21,6 +21,10 @@ class ArticleContainer extends Component{
       var date = new Date(this.props.clickedArticle.timestamp);
       var formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       var description = this.props.clickedArticle.description === '' ? '' : this.props.clickedArticle.description;
+      var article_body = this.props.clickedArticle.content.body.split('\n').map((paragraph) =>
+        <p>{paragraph}</p>
+      );
+
       return(
         <div>
           <h1>{this.props.clickedArticle.content.title}</h1>
@@ -35,7 +39,7 @@ class ArticleContainer extends Component{
             <span style={{color: 'rgb(224, 24, 17)'}}><i className="bookmark icon"></i>Brief Description: </span>
             <span style={{fontStyle: 'italic'}}>{description}</span>
           </div>
-          <div style={{marginTop: '20px'}}>{this.props.clickedArticle.content.body}</div>
+          <div style={{marginTop: '20px'}}>{article_body}</div>
         </div>
       );
     }
