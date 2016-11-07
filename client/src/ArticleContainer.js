@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {Popup, Icon} from 'semantic-ui-react';
-import { render } from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router'
 
 class ArticleContainer extends Component{
   constructor(){
     super();
+    this.deleteArticle=this.deleteArticle.bind(this);
+  }
 
+  deleteArticle(){
+    this.props.onDeleteArticle();
   }
 
   render(){
@@ -32,7 +34,7 @@ class ArticleContainer extends Component{
             <span><a href={this.props.clickedArticle.content.url}>See Original Page</a></span>
             <span style={{paddingLeft: '60%', paddingRight: '2%'}}>{formatted}</span>
             <span>
-              <SaveOrDeleteIcon />
+              <SaveOrDeleteIcon onDeleteArticle={this.deleteArticle}/>
             </span>
           </div>
           <div style={{marginTop: '20px'}}>
@@ -49,36 +51,36 @@ class ArticleContainer extends Component{
 class SaveOrDeleteIcon extends Component{
   constructor(){
     super();
+    this.deleteArticle=this.deleteArticle.bind(this);
   }
 
   deleteArticle(){
     //To do: notify databse to delete
-    
+    this.props.onDeleteArticle();
+    console.log('delete');
   }
 
   saveArticle(){
-
+    //To do: notify database
   }
 
   render(){
     if(this.context.location.pathname === '/'){
       return(
         <Popup
-          trigger={<Icon circular name='heart' color='red' />}
+          trigger={<Icon circular name='heart' color='red' onClick={this.saveArticle}/>}
           content='click to save'
           positioning='bottom center'
           size='tiny'
-          onClick={this.saveArticle}
         />
       );
     }else{
       return(
         <Popup
-          trigger={<Icon circular name='trash' color='green' />}
+          trigger={<Icon circular name='trash' color='green' onClick={this.deleteArticle}/>}
           content='click to delete'
           positioning='bottom center'
           size='tiny'
-          onClick={this.deleteArticle}
         />
       );
     }

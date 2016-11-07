@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Accordion, Icon} from 'semantic-ui-react'
 import './MainLayout.css';
-import request from 'superagent';
 
 
 class ArticleItemsList extends Component{
