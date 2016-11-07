@@ -6,6 +6,7 @@ import { Router, Route, browserHistory } from 'react-router'
 class ArticleContainer extends Component{
   constructor(){
     super();
+
   }
 
   render(){

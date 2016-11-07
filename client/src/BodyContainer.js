@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {PostSavedList, ArticleItemsList} from './ArticleList';
+import CommentContainer from './CommentContainer'
 import { Grid, Segment } from 'semantic-ui-react';
 import request from 'superagent';
 import ArticleContainer from './ArticleContainer';
@@ -50,9 +51,7 @@ class HomeBodyContainer extends Component{
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={3}>
-
-                        comments column
-
+                        <CommentContainer/>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -106,9 +105,7 @@ class UserAccountBodyContainer extends Component{
                     </Segment>
                 </Grid.Column>
                 <Grid.Column width={3}>
-
-                    comments column
-
+                    <CommentContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle}/>
                 </Grid.Column>
             </Grid>
         </Segment>
