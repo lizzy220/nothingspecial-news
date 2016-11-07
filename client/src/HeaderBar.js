@@ -46,16 +46,13 @@ class HeaderBar extends Component{
                     Nothing Special
                 </span>
                 <a className="item" style={meue_item_style}>
-                    <Link to='/'><i className="home icon"></i>View Allc Articles</Link>
-                </a>
-                <a className="item" style={meue_item_style}>
-                    <Link to='/userAccount'><i className="edit icon"></i>Manage My Articles</Link>
+                    <Link to='/'><i className="home icon"></i>View All Articles</Link>
                 </a>
                 <AddPostModal onNewPost={this.handleNewPost}/>
                 <div className="right menu">
                     <div className="ui grid">
                         <div className="item">
-                            <div className="ui icon input item">
+                            <div className="ui icon input">
                                 <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
                                 <i className="search link icon"></i>
                             </div>
