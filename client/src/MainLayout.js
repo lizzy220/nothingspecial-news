@@ -16,6 +16,7 @@ class MainLayout extends Component {
     this.handlePostSavedArticlesLoad = this.handlePostSavedArticlesLoad.bind(this);
     this.handleNewPost = this.handleNewPost.bind(this);
     this.handleArticleClick=this.handleArticleClick.bind(this);
+    this.deleteArticle=this.deleteArticle.bind(this);
   }
 
   handleNewPost(newArticle){
@@ -52,6 +53,28 @@ class MainLayout extends Component {
     }
   }
 
+  deleteArticle(){
+    var self = this;
+    var postArticles = self.state.postArticles.filter(function(article){ return article._id !== self.state.clickedArticleId; });
+    if(postArticles.length < self.state.postArticles.length){
+      var articles = self.state.articles.filter(function(article){ return article._id !== self.state.clickedArticleId; });
+      self.setState({
+        articles: articles,
+        postArticles: postArticles,
+        clickedArticleId: '',
+        clickedArticle: {}
+      });
+    }else{
+      var savedArticles = self.state.savedArticles.filter(function(article){ return article._id !== self.state.clickedArticleId; });
+      self.setState({
+        savedArticles: savedArticles,
+        clickedArticleId: '',
+        clickedArticle: {}
+      });
+    }
+  }
+
+
   getChildContext() {
     return {
       location: this.props.location
@@ -72,7 +95,8 @@ class MainLayout extends Component {
             clickedArticle: this.state.clickedArticle,
             onArticlesLoad: this.handleArticlesLoad,
             onPostSavedArticlesLoad: this.handlePostSavedArticlesLoad,
-            onArticleClick: this.handleArticleClick
+            onArticleClick: this.handleArticleClick,
+            onDeleteArticle: this.deleteArticle,
           })}
         </main>
       </div>

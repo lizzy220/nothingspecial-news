@@ -9,6 +9,7 @@ class HomeBodyContainer extends Component{
     super();
     this.handleArticleClick=this.handleArticleClick.bind(this);
     this.handleArticlesLoad=this.handleArticlesLoad.bind(this);
+
   }
 
   componentDidMount() {
@@ -65,6 +66,7 @@ class UserAccountBodyContainer extends Component{
     super();
     this.handleArticleClick=this.handleArticleClick.bind(this);
     this.handlePostSavedArticlesLoad=this.handlePostSavedArticlesLoad.bind(this);
+    this.deleteArticle=this.deleteArticle.bind(this);
   }
 
   componentDidMount() {
@@ -92,6 +94,9 @@ class UserAccountBodyContainer extends Component{
       console.log(articleId);
       this.props.onArticleClick(articleId);
   }
+  deleteArticle(){
+    this.props.onDeleteArticle();
+  }
 
   render(){
     return(
@@ -102,7 +107,7 @@ class UserAccountBodyContainer extends Component{
                 </Grid.Column>
                 <Grid.Column width={10}>
                     <Segment basic>
-                        <ArticleContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
+                        <ArticleContainer onDeleteArticle={this.deleteArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                     </Segment>
                 </Grid.Column>
                 <Grid.Column width={3}>
