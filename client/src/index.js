@@ -22,13 +22,6 @@ const store = createStore(
   (state = {}) => state,
   applyMiddleware(thunk)
 );
-
-<<<<<<< Updated upstream
-render(
-  <Provider store={store}>
-    <Router history={browserHistory} routes={Routes} />
-  </Provider>, document.getElementById('root'));
-=======
 // see https://github.com/ReactTraining/react-router
 render((
   <Router history={browserHistory}>
@@ -38,4 +31,3 @@ render((
     </Route>
   </Router>
 ), document.getElementById('root'))
->>>>>>> Stashed changes
