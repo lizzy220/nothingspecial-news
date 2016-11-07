@@ -25,7 +25,7 @@ class ArticleItemsList extends Component{
 }
 var clickedStyle={
   boxShadow: '2px 2px 4px 1px  rgba(110,108,110,1)',
-  backgroundColor:'teal',
+  backgroundColor:'rgba(60, 63, 66, 1)',
   color:'white',
   fontSize: '1.4em',
   width: '110%',

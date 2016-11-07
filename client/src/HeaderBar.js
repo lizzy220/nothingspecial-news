@@ -40,7 +40,7 @@ class HeaderBar extends Component{
 
     render(){
         return(
-            <div className="ui top attached teal inverted segment">
+            <div className="ui top attached inverted segment">
             <div className="ui grid secondary inverted menu HeaderBar">
                 <a className="item" style={amazingInlineJsStyle}>
                     {/*<i className="home icon"></i> */}
