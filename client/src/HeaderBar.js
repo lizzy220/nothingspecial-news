@@ -56,7 +56,7 @@ class HeaderBar extends Component{
                 <div className="right menu">
                     <div className="ui grid">
                         <div className="item">
-                            <div className="ui icon input">
+                            <div className="ui icon input item">
                                 <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
                                 <i className="search link icon"></i>
                             </div>
