@@ -31,7 +31,7 @@ class ArticleContainer extends Component{
         <div>
           <h1>{this.props.clickedArticle.content.title}</h1>
           <div>
-            <span><a href={this.props.clickedArticle.content.url}>See Original Page</a></span>
+            <span><a href={this.props.clickedArticle.url}>See Original Page</a></span>
             <span style={{paddingLeft: '57%', paddingRight: '2%'}}>{formatted}</span>
             <span>
               <SaveOrDeleteIcon onDeleteArticle={this.deleteArticle}/>
