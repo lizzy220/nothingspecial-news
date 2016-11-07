@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Accordion, Icon} from 'semantic-ui-react'
 import './MainLayout.css';
+import request from 'superagent';
 
 class ArticleItemsList extends Component{
   constructor(){
@@ -28,7 +29,7 @@ var clickedStyle={
   fontSize: '1.4em',
   width: '110%',
   marginLeft: '-5%',
-  paddingLeft: '1em'
+  paddingLeft: '1em',
 }
 
 class ArticleItem extends Component{
@@ -42,7 +43,7 @@ class ArticleItem extends Component{
   }
 
   render(){
-    var tmp = this.props.clickedArticleId == this.props.articleInfo._id ? clickedStyle : {};
+    var tmp = this.props.clickedArticleId === this.props.articleInfo._id ? clickedStyle : {};
     return(
       <div style={tmp} className="item" onClick={this.handleClick}>{this.props.articleInfo.title}</div>
     );
@@ -62,19 +63,19 @@ class PostSavedList extends Component{
   render(){
     return(
       <Accordion>
-        <Accordion.Title>
+        <Accordion.Title >
           <Icon name='dropdown' />
           Post Articles
         </Accordion.Title>
         <Accordion.Content>
-          <ArticleItemsList onArticleClick={this.handleArticleClick} articles={this.props.postArticles} />
+          <ArticleItemsList clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.postArticles} />
         </Accordion.Content>
         <Accordion.Title>
           <Icon name='dropdown' />
           Saved Articles
         </Accordion.Title>
         <Accordion.Content>
-          <ArticleItemsList onArticleClick={this.handleArticleClick} articles={this.props.savedArticles} />
+          <ArticleItemsList clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.savedArticles} />
         </Accordion.Content>
       </Accordion>
     );

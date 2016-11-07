@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import './MainLayout.css';
 import HeaderBar from './HeaderBar';
-import {HomeBodyContainer,UserAccountBodyContainer} from './BodyContainer';
 import request from 'superagent';
 
 class MainLayout extends Component {
   constructor(){
     super();
     this.state = {articles: [],
+                  postArticles: [],
+                  savedArticles: [],
                   clickedArticleId: '',
                   clickedArticle: {}
                   };
     this.handleArticlesLoad = this.handleArticlesLoad.bind(this);
+    this.handlePostSavedArticlesLoad = this.handlePostSavedArticlesLoad.bind(this);
     this.handleNewPost = this.handleNewPost.bind(this);
     this.handleArticleClick=this.handleArticleClick.bind(this);
   }
 
   handleNewPost(newArticle){
-    this.setState({articles: [newArticle].concat(this.state.articles)});
+    this.setState({articles: [newArticle].concat(this.state.articles),
+                  postArticles: [newArticle].concat(this.state.postArticles)});
     this.handleArticleClick(newArticle._id);
   }
 
@@ -25,20 +28,34 @@ class MainLayout extends Component {
     this.setState({articles: articles});
   }
 
+  handlePostSavedArticlesLoad(articles){
+    this.setState({postArticles: articles});
+    this.setState({savedArticles: articles});
+  }
+
   handleArticleClick(articleId){
-    this.setState({clickedArticleId: articleId});
-    var self = this;
-      request
-       .get('/api/articles/article/' + articleId)
-       .set('Accept', 'application/json')
-       .end(function(err, res) {
-         if (err || !res.ok) {
-           console.log('fail to load article', err);
-         } else {
-           console.log(res.body.content);
-           self.setState({clickedArticle: res.body.content});
-         }
-       });
+    if(articleId !== ''){
+      var self = this;
+        request
+         .get('/api/articles/article/' + articleId)
+         .set('Accept', 'application/json')
+         .end(function(err, res) {
+           if (err || !res.ok) {
+             console.log('fail to load article', err);
+           } else {
+             self.setState({clickedArticle: res.body,
+                            clickedArticleId: articleId});
+           }
+         });
+    }else{
+      this.setState({clickedArticleId: articleId});
+    }
+  }
+
+  getChildContext() {
+    return {
+      location: this.props.location
+    }
   }
 
   render() {
@@ -47,16 +64,24 @@ class MainLayout extends Component {
         <HeaderBar onSearchInput={this.handleArticlesLoad} onNewPost={this.handleNewPost}/>
 
         <main>
-          <HomeBodyContainer
-            articles={this.state.articles}
-            clickedArticleId={this.state.clickedArticleId}
-            clickedArticle={this.state.clickedArticle}
-            onArticlesLoad={this.handleArticlesLoad}
-            onArticleClick={this.handleArticleClick}/>
+          {this.props.children && React.cloneElement(this.props.children, {
+            articles: this.state.articles,
+            postArticles: this.state.postArticles,
+            savedArticles: this.state.savedArticles,
+            clickedArticleId: this.state.clickedArticleId,
+            clickedArticle: this.state.clickedArticle,
+            onArticlesLoad: this.handleArticlesLoad,
+            onPostSavedArticlesLoad: this.handlePostSavedArticlesLoad,
+            onArticleClick: this.handleArticleClick
+          })}
         </main>
       </div>
     );
   }
+}
+
+MainLayout.childContextTypes = {
+    location: React.PropTypes.object
 }
 
 export default MainLayout;

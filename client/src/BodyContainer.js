@@ -25,6 +25,10 @@ class HomeBodyContainer extends Component{
      });
   }
 
+  componentWillUnmount(){
+    this.handleArticleClick('');
+  }
+
   handleArticlesLoad(articles){
     this.props.onArticlesLoad(articles);
   }
@@ -56,28 +60,64 @@ class HomeBodyContainer extends Component{
     }
 }
 
-// class UserAccountBodyContainer extends Component{
-//   constructor(){
-//     super();
-//
-//   }
-//
-//   componentDidMount() {
-//     var self = this;
-//     request
-//      .get('/api/articles/list')
-//      .set('Accept', 'application/json')
-//      .end(function(err, res) {
-//        if (err || !res.ok) {
-//          console.log('fail to load initial list', err);
-//        } else {
-//          self.handleArticlesLoad(res.body);
-//        }
-//      });
-//   }
-//
-// }
+class UserAccountBodyContainer extends Component{
+  constructor(){
+    super();
+    this.handleArticleClick=this.handleArticleClick.bind(this);
+    this.handlePostSavedArticlesLoad=this.handlePostSavedArticlesLoad.bind(this);
+  }
+
+  componentDidMount() {
+    var self = this;
+    request
+     .get('/api/articles/search')
+     .set('Accept', 'application/json')
+     .end(function(err, res) {
+       if (err || !res.ok) {
+         console.log('fail to load initial list', err);
+       } else {
+         self.handlePostSavedArticlesLoad(res.body);
+       }
+     });
+  }
+
+  componentWillUnmount(){
+    this.handleArticleClick('');
+  }
+
+  handlePostSavedArticlesLoad(articles){
+    this.props.onPostSavedArticlesLoad(articles);
+  }
+  handleArticleClick(articleId){
+      console.log(articleId);
+      this.props.onArticleClick(articleId);
+  }
+
+  render(){
+    return(
+        <Segment attached className='BodyContainer'>
+            <Grid divided>
+                <Grid.Column width={3} >
+                    <PostSavedList postArticles={this.props.postArticles} savedArticles={this.props.savedArticles} clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick}/>
+                </Grid.Column>
+                <Grid.Column width={10}>
+                    <Segment basic>
+                        <ArticleContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
+                    </Segment>
+                </Grid.Column>
+                <Grid.Column width={3}>
+
+                    comments column
+
+                </Grid.Column>
+            </Grid>
+        </Segment>
+    );
+  }
+
+}
 
 module.exports={
   HomeBodyContainer,
+  UserAccountBodyContainer
 }

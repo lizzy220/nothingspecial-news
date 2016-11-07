@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal} from 'semantic-ui-react'
 import request from 'superagent';
+import { Link } from 'react-router';
 
 var amazingInlineJsStyle = {
     fontFamily: 'fantasy',
@@ -11,7 +12,7 @@ class HeaderBar extends Component{
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
-        this.handleUserAccount=this.handleUserAccount.bind(this);
+        // this.handleUserAccount=this.handleUserAccount.bind(this);
         this.handleNewPost=this.handleNewPost.bind(this);
     }
 
@@ -27,13 +28,6 @@ class HeaderBar extends Component{
              self.props.onSearchInput(res.body);
            }
          });
-    }
-
-    handleUserAccount(){
-      //To Do: get postArticles and savedArticles from database
-      var postArticles=[{'id': '1', 'title': 'java'}];
-      var savedArticles=[{'id': '2', 'title': 'C++'}];
-      this.props.onClickUser(postArticles, savedArticles);
     }
 
     handleNewPost(newArticle){
@@ -60,7 +54,7 @@ class HeaderBar extends Component{
                             </div>
                         </div>
                         <div className="item">
-                            <i className='user icon' onClick={this.handleUserAccount}></i>
+                            <Link to='/userAccount'><i className='user icon' onClick={this.handleUserAccount}></i></Link>
                         </div>
                     </div>
                 </div>
