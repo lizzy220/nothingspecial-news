@@ -19,7 +19,8 @@ class ArticleItemsList extends Component{
         <div></div>
         {this.props.articles.map((article)=>
           <ArticleItem key={article._id} clickedArticleId={this.props.clickedArticleId} articleInfo={article} onArticleClick={this.handleClick} />)}
-      </div>
+        <div></div>
+        </div>
     );
   }
 }
