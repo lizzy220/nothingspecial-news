@@ -8,8 +8,8 @@ class CommentContainer extends Component {
     }
 
     render() {
-        var comments = [{'author': 'Yangyang', 'text': 'Great post!', 'timestamp': '1 days ago'}, {'author': 'Xi', 'text': 'La La La!', 'timestamp': '1 days ago'}]
-        const commentListItem = comments.map((comment) =>
+        const comments = [{'author': 'Yangyang', 'text': 'Great post!', 'timestamp': '1 days ago'}, {'author': 'Xi', 'text': 'La La La!', 'timestamp': '1 days ago'}]
+        const commentListItem = comments.map(comment =>
             <Comment>
                 <Comment.Content>
                     <Comment.Author as='a'>{comment.author}</Comment.Author>

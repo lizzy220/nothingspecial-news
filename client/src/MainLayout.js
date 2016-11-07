@@ -60,7 +60,7 @@ class MainLayout extends Component {
 
   render() {
     return (
-      <div className="MainLayout">
+      <div className="MainLayout" style={{flex:'1'}}>
         <HeaderBar onSearchInput={this.handleArticlesLoad} onNewPost={this.handleNewPost}/>
 
         <main>

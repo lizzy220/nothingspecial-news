@@ -42,10 +42,10 @@ class HomeBodyContainer extends Component{
         return(
             <Segment attached className='BodyContainer'>
                 <Grid divided>
-                    <Grid.Column width={3} >
+                    <Grid.Column width={4} >
                         <ArticleItemsList clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={9}>
                         <Segment basic>
                             <ArticleContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                         </Segment>
@@ -96,16 +96,16 @@ class UserAccountBodyContainer extends Component{
     return(
         <Segment attached className='BodyContainer'>
             <Grid divided>
-                <Grid.Column width={3} >
+                <Grid.Column width={4} >
                     <PostSavedList postArticles={this.props.postArticles} savedArticles={this.props.savedArticles} clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick}/>
                 </Grid.Column>
-                <Grid.Column width={10}>
+                <Grid.Column width={9}>
                     <Segment basic>
                         <ArticleContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                     </Segment>
                 </Grid.Column>
                 <Grid.Column width={3}>
-                    <CommentContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle}/>
+                    <CommentContainer/>
                 </Grid.Column>
             </Grid>
         </Segment>

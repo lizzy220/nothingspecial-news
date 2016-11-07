@@ -3,6 +3,7 @@ import { Accordion, Icon} from 'semantic-ui-react'
 import './MainLayout.css';
 import request from 'superagent';
 
+
 class ArticleItemsList extends Component{
   constructor(){
     super();
@@ -16,6 +17,7 @@ class ArticleItemsList extends Component{
   render(){
     return(
       <div className="ui middle aligned animated list divided items">
+        <div></div>
         {this.props.articles.map((article)=>
           <ArticleItem key={article._id} clickedArticleId={this.props.clickedArticleId} articleInfo={article} onArticleClick={this.handleClick} />)}
       </div>
@@ -31,6 +33,7 @@ var clickedStyle={
   marginLeft: '-5%',
   paddingLeft: '1em',
 }
+
 
 class ArticleItem extends Component{
   constructor(){

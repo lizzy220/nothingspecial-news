@@ -26,7 +26,7 @@ const store = createStore(
 render((
   <Router history={browserHistory}>
     <Route component={MainLayout}>
-      <Route path="/" component={HomeBodyContainer}/>
+      <Route path="/" component={HomeBodyContainer}  style={{height: "100%"}}/>
       <Route path="/userAccount" component={UserAccountBodyContainer}/>
     </Route>
   </Router>

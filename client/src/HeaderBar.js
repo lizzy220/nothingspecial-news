@@ -8,6 +8,10 @@ var amazingInlineJsStyle = {
     fontSize: '1.5em',
 }
 
+var meue_item_style = {
+    fontSize: '1.2em'
+}
+
 class HeaderBar extends Component{
     constructor() {
         super();
@@ -36,12 +40,13 @@ class HeaderBar extends Component{
 
     render(){
         return(
-            <div className="ui grid top attached secondary inverted teal menu HeaderBar">
+            <div className="ui top attached inverted segment">
+            <div className="ui grid  secondary  inverted  menu HeaderBar">
                 <a className="item" style={amazingInlineJsStyle}>
                     {/*<i className="home icon"></i> */}
                     Nothing Special
                 </a>
-                <a className="item">
+                <a className="item" style={meue_item_style}>
                     <i className="edit icon"></i>My Posts
                 </a>
                 <AddPostModal onNewPost={this.handleNewPost}/>
@@ -59,6 +64,7 @@ class HeaderBar extends Component{
                     </div>
                 </div>
             </div>
+                </div>
         )
     }
 }
@@ -100,7 +106,7 @@ class AddPostModal extends Component{
         const { open, dimmer } = this.state
         return(
             <div className="AddPostModal ui grid">
-                <a className='item' onClick={this.show(true)} ><i className="add circle icon"></i>Share New Article</a>
+                <a className='item' onClick={this.show(true)}  style={meue_item_style} ><i className="add circle icon"></i>Share New Article</a>
                 <Modal dimmer={dimmer} open={open} onClose={this.close}>
                     <Modal.Header>Share New Article</Modal.Header>
                     <Modal.Content>
