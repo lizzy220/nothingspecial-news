@@ -32,13 +32,13 @@ class ArticleContainer extends Component{
           <h1>{this.props.clickedArticle.content.title}</h1>
           <div>
             <span><a href={this.props.clickedArticle.content.url}>See Original Page</a></span>
-            <span style={{paddingLeft: '60%', paddingRight: '2%'}}>{formatted}</span>
+            <span style={{paddingLeft: '57%', paddingRight: '2%'}}>{formatted}</span>
             <span>
               <SaveOrDeleteIcon onDeleteArticle={this.deleteArticle}/>
             </span>
           </div>
           <div style={{marginTop: '20px'}}>
-            <span style={{color: 'rgb(216, 36, 213)'}}><i className="bookmark icon"></i>Brief Description: </span>
+            <span style={{color: '#DB2828'}}><i className="bookmark icon"></i>Brief Description: </span>
             <span style={{fontStyle: 'italic'}}>{description}</span>
           </div>
           <div style={{marginTop: '20px'}}>{article_body}</div>
@@ -68,7 +68,7 @@ class SaveOrDeleteIcon extends Component{
     if(this.context.location.pathname === '/'){
       return(
         <Popup
-          trigger={<Icon circular name='heart' color='pink' onClick={this.saveArticle}/>}
+          trigger={<Icon circular name='heart' color='red' onClick={this.saveArticle}/>}
           content='click to save'
           positioning='bottom center'
           size='tiny'

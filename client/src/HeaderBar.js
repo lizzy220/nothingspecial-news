@@ -42,10 +42,9 @@ class HeaderBar extends Component{
         return(
             <div className="ui top attached inverted segment">
             <div className="ui grid secondary inverted menu HeaderBar">
-                <a className="item" style={amazingInlineJsStyle}>
-                    {/*<i className="home icon"></i> */}
+                <span className="item" style={amazingInlineJsStyle}>
                     Nothing Special
-                </a>
+                </span>
                 <a className="item" style={meue_item_style}>
                     <Link to='/'><i className="home icon"></i>View All Articles</Link>
                 </a>
@@ -59,7 +58,7 @@ class HeaderBar extends Component{
                             </div>
                         </div>
                         <div className="item">
-                            <Link to='/userAccount'><i className='user icon' onClick={this.handleUserAccount}></i></Link>
+                            <Link to='/userAccount'><i className='user icon large'></i></Link>
                         </div>
                     </div>
                 </div>
@@ -128,8 +127,8 @@ class AddPostModal extends Component{
                         </div>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.close}>Cancel</Button>
-                        <Button onClick={this.publishPost}>Publish</Button>
+                        <Button inverted color="red" onClick={this.close}>Cancel</Button>
+                        <Button inverted color="green" onClick={this.publishPost}>Publish</Button>
                     </Modal.Actions>
                 </Modal>
             </div>
