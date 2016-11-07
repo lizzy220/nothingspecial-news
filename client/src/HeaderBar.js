@@ -40,18 +40,16 @@ class HeaderBar extends Component{
 
     render(){
         return(
-            <div className="ui top attached inverted segment">
-            <div className="ui grid secondary inverted menu HeaderBar">
+            <div className="ui top attached inverted segment" style={{padding: '0'}}>
+            <div className="ui grid secondary inverted menu HeaderBar" style={{padding: '0'}}>
                 <span className="item" style={amazingInlineJsStyle}>
                     Nothing Special
                 </span>
-                <a className="item" style={meue_item_style}>
-                    <Link to='/'><i className="home icon"></i>View All Articles</Link>
-                </a>
+
+                  <Link as='a' className='item' to='/' style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
+
                 <AddPostModal onNewPost={this.handleNewPost}/>
-                <div className="right menu">
-                    <div className="ui grid">
-                        <div className="item">
+                        <div className="right item">
                             <div className="ui icon input">
                                 <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
                                 <i className="search link icon"></i>
@@ -60,8 +58,6 @@ class HeaderBar extends Component{
                         <div className="item">
                             <Link to='/userAccount'><i className='user icon large'></i></Link>
                         </div>
-                    </div>
-                </div>
             </div>
                 </div>
         )
@@ -104,7 +100,7 @@ class AddPostModal extends Component{
     render(){
         const { open, dimmer } = this.state
         return(
-            <div className="AddPostModal ui grid">
+            <div className="AddPostModal ui grid item " style={{padding: '0'}}>
                 <a className='item' onClick={this.show(true)}  style={meue_item_style}><i className="add circle icon"></i>Share New Article</a>
                 <Modal dimmer={dimmer} open={open} onClose={this.close}>
                     <Modal.Header>Share New Article</Modal.Header>
