@@ -43,7 +43,7 @@ class HomeBodyContainer extends Component{
         return(
             <Segment attached className='BodyContainer'>
                 <Grid divided>
-                    <Grid.Column width={4} >
+                    <Grid.Column width={4}>
                         <ArticleItemsList clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
                     <Grid.Column width={9}>

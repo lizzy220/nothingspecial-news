@@ -23,7 +23,7 @@ import LoginForm from './LoginForm';
 render((
   <Router history={browserHistory}>
     <Route component={MainLayout}>
-      <Route path="/" component={HomeBodyContainer}  style={{height: "100%"}}/>
+      <Route path="/" component={HomeBodyContainer}  style={{height: "100%", position: 'fixed'}}/>
       <Route path="/userAccount" component={UserAccountBodyContainer}/>
     </Route>
   </Router>

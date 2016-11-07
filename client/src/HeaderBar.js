@@ -40,14 +40,17 @@ class HeaderBar extends Component{
 
     render(){
         return(
-            <div className="ui top attached inverted segment">
-            <div className="ui grid  secondary  inverted  menu HeaderBar">
+            <div className="ui top attached teal inverted segment">
+            <div className="ui grid secondary inverted menu HeaderBar">
                 <a className="item" style={amazingInlineJsStyle}>
                     {/*<i className="home icon"></i> */}
                     Nothing Special
                 </a>
                 <a className="item" style={meue_item_style}>
-                    <i className="edit icon"></i>My Posts
+                    <Link to='/'><i className="home icon"></i>View Allc Articles</Link>
+                </a>
+                <a className="item" style={meue_item_style}>
+                    <Link to='/userAccount'><i className="edit icon"></i>Manage My Articles</Link>
                 </a>
                 <AddPostModal onNewPost={this.handleNewPost}/>
                 <div className="right menu">
@@ -106,7 +109,7 @@ class AddPostModal extends Component{
         const { open, dimmer } = this.state
         return(
             <div className="AddPostModal ui grid">
-                <a className='item' onClick={this.show(true)}  style={meue_item_style} ><i className="add circle icon"></i>Share New Article</a>
+                <a className='item' onClick={this.show(true)}  style={meue_item_style}><i className="add circle icon"></i>Share New Article</a>
                 <Modal dimmer={dimmer} open={open} onClose={this.close}>
                     <Modal.Header>Share New Article</Modal.Header>
                     <Modal.Content>

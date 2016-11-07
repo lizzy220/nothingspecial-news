@@ -23,12 +23,14 @@ class CommentContainer extends Component {
         return (
             <Comment.Group>
                 <Header as='h3' dividing>Comments</Header>
-                {commentListItem}
-                <div style={{position: 'absolute', width: '100%',padding: '1em', bottom: '1em', right: '0', left: '0', }}>
+                <div class="ui segments">
+                   <div class="ui segment">{commentListItem}</div>
+                   <div class="ui segment">
                     <Form size="small" onSubmit={e => e.preventDefault()}>
                         <Form.TextArea rows="3"/>
                         <Button basic fluid size="tiny" color="black" content='Add Comment' labelPosition='left' icon='comments'  />
                     </Form>
+                    </div>
                  </div>
             </Comment.Group>
         );
