@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from './LoginForm';
-import { connect } from 'react-redux';
-import { login } from './login';
+// import { connect } from 'react-redux';
+// import { login } from './login';
 // import { userLoginRequest } from './loginActions';
 import { Link } from 'react-router';
 

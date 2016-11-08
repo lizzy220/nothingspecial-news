@@ -20,7 +20,6 @@ export default (
     <Route component={MainLayout}>
       <Route path="/home" component={HomeBodyContainer}   style={{height: "100%"}}/>
       <Route path="/userAccount" component={UserAccountBodyContainer}/>
-
     </Route>
     <Route path="/" component={LoginPage}/>
     <Route path="/signup" component={SignupPage}/>

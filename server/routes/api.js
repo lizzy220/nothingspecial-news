@@ -19,21 +19,26 @@ function insertdb(collection, record, callback){
     mongo.connect(insertUser);
 }
 
-
 function getdb(collection, record, callback){
     var getUser = function(err, db){
         db.collection(collection).findOne(record, function(err, result){
             if (err) {
                 console.log(err);
             } else {
-                callback(result)
+                callback(result);
             }
-            //Close connection
             db.close();
         });
-        db.close();
     }
     return mongo.connect(getUser);
+}
+
+function updatedb(collection, criteria, update, callback){
+  var user = function(err, db){
+    db.collection(collection).update(criteria, update, callback);
+    db.close();
+  }
+  mongo.connect(user);
 }
 
 
@@ -77,7 +82,7 @@ function getdbBySearchKey(collection, searchKey, callback) {
 
 function getdbById(collection, id, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').findOne(ObjectId(id), function(err, result){
+        db.collection(collection).findOne(ObjectId(id), function(err, result){
             if (err) {
                 console.log(err);
             } else {
@@ -102,14 +107,61 @@ router.get('/articles/search', function(req, res) {
     })
 });
 
-router.get('/articles/article/:id', function(req, res) {
-    getdbById('Article', req.params.id, function(article) {
-        res.json(article);
-    })
+// router.get('/articles/article/:id', function(req, res) {
+//     getdbById('Article', req.params.id, function(article) {
+//         res.json(article);
+//     })
+// });
+
+router.post('/articles/article/:id', function(req, res) {
+    getdb('users', {'username': req.body.username, 'saved._id': req.params.id}, function(userInfo){
+        saved = false
+        if (userInfo) {
+            saved = true
+        }
+        getdbById('Article', req.params.id, function(article) {
+            article['saved'] = saved
+            res.json(article);
+        });
+    });
+
 });
 
+router.post('/articles/usercollection', function(req, res){
+    console.log(req.body.username)
+  getdb('users', {'username': req.body.username}, function(user) {
+      res.json({'posts': user.posts, 'saved': user.saved});
+  });
+})
+
+router.post('/articles/save', function(req, res){
+  var data = req.body.article;
+  var username = req.body.username;
+    updatedb('users', {'username': username}, {$push: {'saved': data}}, function(err, user) {
+      if (!err) {
+        res.json(user);
+      } else {
+        res.status(400);
+      }
+  })
+})
+
+router.post('/articles/delete', function(req, res){
+    var data = req.body.article;
+    var username = req.body.username;
+    updatedb('users', {'username': username}, {$pull: {'posts': data, 'saved': data}}, function(err, user) {
+      if (!err) {
+        res.json({'success': 'true'});
+      } else {
+        res.status(400);
+      }
+    });
+})
+
+
 router.post("/articles/new", function(req, res) {
-    var article = req.body;
+    var username = req.body.username;
+    var article = req.body.article;
     article['timestamp'] = Date.now();
     article['visable'] = true;
     article['tags'] = [];
@@ -122,10 +174,16 @@ router.post("/articles/new", function(req, res) {
             delete filledArticle['content']['additionalData']
             delete filledArticle['content']['entities']
             insertdb('Article', filledArticle, function(err, record) {
-                console.log(err)
                 if (!err) {
                     console.log("Article inserted");
-                    res.json({"_id": record.ops[0]._id, "title": record.ops[0].title});
+                    var data = {"_id": record.ops[0]._id, "title": record.ops[0].title};
+                    updatedb('users', {'username': username}, {$push: {"posts": {"_id": record.ops[0]._id.toString(), "title": record.ops[0].title}}}, function(err, user) {
+                        if (!err) {
+                          res.json(data);
+                        } else {
+                          res.status(400);
+                        }
+                    });
                 } else {
                     res.status(400);
                 }
