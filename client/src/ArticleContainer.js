@@ -82,11 +82,11 @@ class ArticleContainer extends Component{
 }
 
 class SaveOrDeleteIcon extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.deleteArticle=this.deleteArticle.bind(this);
     this.saveArticle=this.saveArticle.bind(this);
-    // this.state = {this.props.}
+    this.state = {saved: this.props.saved};
   }
 
   deleteArticle(){
@@ -95,13 +95,14 @@ class SaveOrDeleteIcon extends Component{
 
   saveArticle(){
     this.props.onSaveArticle();
+    this.setState({saved: ~this.state.saved})
   }
 
   render(){
     if(this.context.location.pathname === '/home'){
       var color = 'olive'
       var tooltip = "click to save"
-      if (this.props.saved) {
+      if (this.state.saved) {
         color = 'red'
         tooltip = "saved"
       }
