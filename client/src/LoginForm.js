@@ -73,7 +73,7 @@ class LoginForm extends React.Component {
         </div>
         <div>
           <button className="ui primary button">Login</button>
-          <button className="ui button"><Link to={`/signup`}>Sign Up</Link></button>
+          
         </div>
       </form>
     );
