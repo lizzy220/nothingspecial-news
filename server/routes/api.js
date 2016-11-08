@@ -113,15 +113,17 @@ router.get('/articles/article/:id', function(req, res) {
     })
 });
 
-router.post('articles/usercollection', function(req, res){
+router.post('/articles/usercollection', function(req, res){
+    console.log(req.body.username)
   getdb('users', {'username': req.body.username}, function(user) {
       res.json(user);
   });
 })
 
-router.post('/api/articles/save', function(req, res){
+router.post('/articles/save', function(req, res){
   var data = req.body.article;
   var username = req.body.username;
+    console.log(username)
   updatedb('users', {'username': username}, {$push: {'saved': data}}, function(err, user) {
       if (!err) {
         res.json(user);
@@ -149,7 +151,7 @@ router.post("/articles/new", function(req, res) {
                 if (!err) {
                     console.log("Article inserted");
                     var data = {"_id": record.ops[0]._id, "title": record.ops[0].title};
-                    updatedb('users', {'username': username}, {$push: {'posts': data}}, function(err, user) {
+                    updatedb('users', {'username': username}, {$push: {"posts": data}}, function(err, user) {
                         if (!err) {
                           res.json(data);
                         } else {
