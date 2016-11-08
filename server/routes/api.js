@@ -116,15 +116,14 @@ router.get('/articles/article/:id', function(req, res) {
 router.post('/articles/usercollection', function(req, res){
     console.log(req.body.username)
   getdb('users', {'username': req.body.username}, function(user) {
-      res.json(user);
+      res.json({'posts': user.posts, 'saved': user.saved});
   });
 })
 
 router.post('/articles/save', function(req, res){
   var data = req.body.article;
   var username = req.body.username;
-    console.log(username)
-  updatedb('users', {'username': username}, {$push: {'saved': data}}, function(err, user) {
+    updatedb('users', {'username': username}, {$push: {'saved': data}}, function(err, user) {
       if (!err) {
         res.json(user);
       } else {
@@ -132,6 +131,19 @@ router.post('/articles/save', function(req, res){
       }
   })
 })
+
+router.post('/articles/delete', function(req, res){
+    var data = req.body.article;
+    var username = req.body.username;
+    updatedb('users', {'username': username}, {$pull: {'posts': data, 'saved': data}}, function(err, user) {
+      if (!err) {
+        res.json({'success': 'true'});
+      } else {
+        res.status(400);
+      }
+    });
+})
+
 
 router.post("/articles/new", function(req, res) {
     var username = req.body.username;
@@ -151,7 +163,7 @@ router.post("/articles/new", function(req, res) {
                 if (!err) {
                     console.log("Article inserted");
                     var data = {"_id": record.ops[0]._id, "title": record.ops[0].title};
-                    updatedb('users', {'username': username}, {$push: {"posts": data}}, function(err, user) {
+                    updatedb('users', {'username': username}, {$push: {"posts": {"_id": record.ops[0]._id.toString(), "title": record.ops[0].title}}}, function(err, user) {
                         if (!err) {
                           res.json(data);
                         } else {

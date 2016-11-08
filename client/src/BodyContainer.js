@@ -72,7 +72,6 @@ class UserAccountBodyContainer extends Component{
   componentDidMount() {
     var self = this;
     const data = {'username': jwtDecode(localStorage.jwtToken).username};
-    console.log(data.username);
     request
       .post('/api/articles/usercollection')
       .send(data)
@@ -81,7 +80,6 @@ class UserAccountBodyContainer extends Component{
          if (err || !res.ok) {
            console.log('fail to load user collection', err);
          } else {
-           console.log(res.body);
            self.handlePostSavedArticlesLoad(res.body);
          }
        });

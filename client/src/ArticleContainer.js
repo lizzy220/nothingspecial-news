@@ -12,13 +12,26 @@ class ArticleContainer extends Component{
 
   deleteArticle(){
     this.props.onDeleteArticle();
+    var self = this;
+    const data = {'username': jwtDecode(localStorage.jwtToken).username,
+                'article': {"_id": self.props.clickedArticle._id, "title": self.props.clickedArticle.title}};
+    request
+      .post('/api/articles/delete')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        if (err || !res.ok) {
+          alert('delete fail');
+        } else {
+          console.log('delete successfully');
+        }
+    });
   }
 
   saveArticle(){
     var self = this;
     const data = {'username': jwtDecode(localStorage.jwtToken).username,
                 'article': {"_id": self.props.clickedArticle._id, "title": self.props.clickedArticle.title}};
-    console.log(data.username);
     request
       .post('/api/articles/save')
       .send(data)
@@ -27,7 +40,7 @@ class ArticleContainer extends Component{
         if (err || !res.ok) {
           alert('save fail');
         } else {
-          console.log(res.body);
+          console.log('save successfully');
         }
     });
   }
@@ -44,8 +57,8 @@ class ArticleContainer extends Component{
       var date = new Date(this.props.clickedArticle.timestamp);
       var formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       var description = this.props.clickedArticle.description === '' ? '' : this.props.clickedArticle.description;
-      var article_body = this.props.clickedArticle.content.body.split('\n').map((paragraph) =>
-        <p key={{paragraph}}>{paragraph}</p>
+      var article_body = this.props.clickedArticle.content.body.split('\n').map((paragraph, i) =>
+        <p key={i}>{paragraph}</p>
       );
       return(
         <div>
@@ -76,7 +89,6 @@ class SaveOrDeleteIcon extends Component{
   }
 
   deleteArticle(){
-    //To do: notify databse to delete
     this.props.onDeleteArticle();
   }
 
