@@ -19,6 +19,7 @@ function insertdb(collection, record, callback){
     mongo.connect(insertUser);
 }
 
+
 function getdb(collection, record, callback){
     var getUser = function(err, db){
         db.collection(collection).findOne(record, function(err, result){
@@ -35,9 +36,10 @@ function getdb(collection, record, callback){
     return mongo.connect(getUser);
 }
 
+
 function getdbAll(collection, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').find().toArray(function(err, result){
+        db.collection('Article').find({}, { title: 1}).toArray(function(err, result){
             if (err) {
                 console.log(err);
             } else if (result.length) {
@@ -53,9 +55,10 @@ function getdbAll(collection, callback) {
     return mongo.connect(getResults);
 }
 
+//only return array of {_id:, title:}
 function getdbBySearchKey(collection, searchKey, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').find({"title": {$regex: ".*" + searchKey + ".*"}}).toArray(function(err, result){
+        db.collection('Article').find({"title": {$regex: ".*" + searchKey + ".*"}}, { title: 1}).toArray(function(err, result){
             if (err) {
                 console.log(err);
             } else if (result.length) {
@@ -71,7 +74,6 @@ function getdbBySearchKey(collection, searchKey, callback) {
     }
     return mongo.connect(getResults);
 }
-
 
 function getdbById(collection, id, callback) {
     var getResults = function(err, db) {

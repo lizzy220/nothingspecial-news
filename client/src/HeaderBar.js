@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import { Button, Modal} from 'semantic-ui-react'
 import request from 'superagent';
+import { Link } from 'react-router';
 
 var amazingInlineJsStyle = {
     fontFamily: 'fantasy',
     fontSize: '1.5em',
 }
 
+var meue_item_style = {
+    fontSize: '1.2em'
+}
+
 class HeaderBar extends Component{
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
-        this.handleUserAccount=this.handleUserAccount.bind(this);
+        // this.handleUserAccount=this.handleUserAccount.bind(this);
         this.handleNewPost=this.handleNewPost.bind(this);
     }
 
@@ -29,42 +34,32 @@ class HeaderBar extends Component{
          });
     }
 
-    handleUserAccount(){
-      //To Do: get postArticles and savedArticles from database
-      var postArticles=[{'id': '1', 'title': 'java'}];
-      var savedArticles=[{'id': '2', 'title': 'C++'}];
-      this.props.onClickUser(postArticles, savedArticles);
-    }
-
     handleNewPost(newArticle){
       this.props.onNewPost(newArticle);
     }
 
     render(){
         return(
-            <div className="ui grid top attached secondary inverted teal menu HeaderBar">
-                <a className="item" style={amazingInlineJsStyle}>
-                    {/*<i className="home icon"></i> */}
+            <div className="ui top attached inverted segment" style={{padding: '0'}}>
+            <div className="ui grid secondary inverted menu HeaderBar" style={{padding: '0'}}>
+                <span className="item" style={amazingInlineJsStyle}>
                     Nothing Special
-                </a>
-                <a className="item">
-                    <i className="edit icon"></i>My Posts
-                </a>
+                </span>
+
+                  <Link as='a' className='item' to='/' style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
+
                 <AddPostModal onNewPost={this.handleNewPost}/>
-                <div className="right menu">
-                    <div className="ui grid">
-                        <div className="item">
-                            <div className="ui icon input item">
+                        <div className="right item">
+                            <div className="ui icon input">
                                 <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
                                 <i className="search link icon"></i>
                             </div>
                         </div>
                         <div className="item">
-                            <i className='user icon' onClick={this.handleUserAccount}></i>
+                            <Link to='/userAccount'><i className='user icon large'></i></Link>
                         </div>
-                    </div>
-                </div>
             </div>
+                </div>
         )
     }
 }
@@ -105,8 +100,8 @@ class AddPostModal extends Component{
     render(){
         const { open, dimmer } = this.state
         return(
-            <div className="AddPostModal ui grid">
-                <a className='item' onClick={this.show(true)} ><i className="add circle icon"></i>Share New Article</a>
+            <div className="AddPostModal ui grid item " style={{padding: '0'}}>
+                <a className='item' onClick={this.show(true)}  style={meue_item_style}><i className="add circle icon"></i>Share New Article</a>
                 <Modal dimmer={dimmer} open={open} onClose={this.close}>
                     <Modal.Header>Share New Article</Modal.Header>
                     <Modal.Content>
@@ -128,8 +123,8 @@ class AddPostModal extends Component{
                         </div>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.close}>Cancel</Button>
-                        <Button onClick={this.publishPost}>Publish</Button>
+                        <Button inverted color="red" onClick={this.close}>Cancel</Button>
+                        <Button inverted color="green" onClick={this.publishPost}>Publish</Button>
                     </Modal.Actions>
                 </Modal>
             </div>

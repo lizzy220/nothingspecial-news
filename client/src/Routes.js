@@ -18,8 +18,8 @@ import LoginPage from './LoginPage';
 export default (
   <Router history={browserHistory}>
     <Route component={MainLayout}>
-      <Route path="/home" component={HomeBodyContainer}/>
-      <Route path="/foo" component={Foo}/>
+      <Route path="/home" component={HomeBodyContainer}   style={{height: "100%"}}/>
+      <Route path="/userAccount" component={UserAccountBodyContainer}/>
 
     </Route>
     <Route path="/" component={LoginPage}/>
