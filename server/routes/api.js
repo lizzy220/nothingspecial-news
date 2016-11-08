@@ -107,10 +107,24 @@ router.get('/articles/search', function(req, res) {
     })
 });
 
-router.get('/articles/article/:id', function(req, res) {
-    getdbById('Article', req.params.id, function(article) {
-        res.json(article);
-    })
+// router.get('/articles/article/:id', function(req, res) {
+//     getdbById('Article', req.params.id, function(article) {
+//         res.json(article);
+//     })
+// });
+
+router.post('/articles/article/:id', function(req, res) {
+    getdb('users', {'username': req.body.username, 'saved._id': req.params.id}, function(userInfo){
+        saved = false
+        if (userInfo) {
+            saved = true
+        }
+        getdbById('Article', req.params.id, function(article) {
+            article['saved'] = saved
+            res.json(article);
+        });
+    });
+
 });
 
 router.post('/articles/usercollection', function(req, res){
