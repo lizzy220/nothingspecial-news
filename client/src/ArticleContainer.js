@@ -1,15 +1,35 @@
 import React, { Component } from 'react';
 import {Popup, Icon} from 'semantic-ui-react';
+import request from 'superagent';
 import jwtDecode from 'jwt-decode';
 
 class ArticleContainer extends Component{
   constructor(){
     super();
     this.deleteArticle=this.deleteArticle.bind(this);
+    this.saveArticle=this.saveArticle.bind(this);
   }
 
   deleteArticle(){
     this.props.onDeleteArticle();
+  }
+
+  saveArticle(){
+    var self = this;
+    const data = {'username': jwtDecode(localStorage.jwtToken).username,
+                'article': {"_id": self.props.clickedArticle._id, "title": self.props.clickedArticle.title}};
+    console.log(data.username);
+    request
+      .post('/api/articles/save')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        if (err || !res.ok) {
+          alert('save fail');
+        } else {
+          console.log(res.body);
+        }
+    });
   }
 
   render(){
@@ -18,8 +38,6 @@ class ArticleContainer extends Component{
         <div>
           <h1>Nothing Special</h1>
           <div>Knowledge Has Never Been So Sexy!</div>
-          // example for using token
-          <div>{jwtDecode(localStorage.jwtToken).username}</div>
         </div>
       );
     }else{
@@ -29,7 +47,6 @@ class ArticleContainer extends Component{
       var article_body = this.props.clickedArticle.content.body.split('\n').map((paragraph) =>
         <p>{paragraph}</p>
       );
-
       return(
         <div>
           <h1>{this.props.clickedArticle.content.title}</h1>
@@ -37,7 +54,7 @@ class ArticleContainer extends Component{
             <span><a href={this.props.clickedArticle.url}>See Original Page</a></span>
             <span style={{paddingLeft: '57%', paddingRight: '2%'}}>{formatted}</span>
             <span>
-              <SaveOrDeleteIcon onDeleteArticle={this.deleteArticle}/>
+              <SaveOrDeleteIcon onSaveArticle={this.saveArticle} onDeleteArticle={this.deleteArticle}/>
             </span>
           </div>
           <div style={{marginTop: '20px'}}>
@@ -55,20 +72,20 @@ class SaveOrDeleteIcon extends Component{
   constructor(){
     super();
     this.deleteArticle=this.deleteArticle.bind(this);
+    this.saveArticle=this.saveArticle.bind(this);
   }
 
   deleteArticle(){
     //To do: notify databse to delete
     this.props.onDeleteArticle();
-    console.log('delete');
   }
 
   saveArticle(){
-    //To do: notify database
+    this.props.onSaveArticle();
   }
 
   render(){
-    if(this.context.location.pathname === '/'){
+    if(this.context.location.pathname === '/home'){
       return(
         <Popup
           trigger={<Icon circular name='heart' color='red' onClick={this.saveArticle}/>}

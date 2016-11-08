@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal} from 'semantic-ui-react'
 import request from 'superagent';
 import { Link } from 'react-router';
+import jwtDecode from 'jwt-decode';
 
 var amazingInlineJsStyle = {
     fontFamily: 'fantasy',
@@ -46,7 +47,7 @@ class HeaderBar extends Component{
                     Nothing Special
                 </span>
 
-                  <Link as='a' className='item' to='/' style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
+                  <Link as='a' className='item' to='/home' style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
 
                 <AddPostModal onNewPost={this.handleNewPost}/>
                         <div className="right item">
@@ -77,9 +78,12 @@ class AddPostModal extends Component{
     publishPost(){
         var self = this;
         var data = {
-            "title" : this.refs.titleInput.value,
-            "url": this.refs.linkInput.value,
-            "description": this.refs.descriptionInput.value,
+            "username": jwtDecode(localStorage.jwtToken).username,
+            "article": {
+              "title" : this.refs.titleInput.value,
+              "url": this.refs.linkInput.value,
+              "description": this.refs.descriptionInput.value,
+            }
         };
 
         request

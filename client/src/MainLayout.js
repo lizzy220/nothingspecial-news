@@ -30,8 +30,8 @@ class MainLayout extends Component {
   }
 
   handlePostSavedArticlesLoad(articles){
-    this.setState({postArticles: articles});
-    this.setState({savedArticles: articles});
+    this.setState({postArticles: articles.posts,
+                  savedArticles: articles.saved});
   }
 
   handleArticleClick(articleId){

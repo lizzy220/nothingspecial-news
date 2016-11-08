@@ -19,21 +19,26 @@ function insertdb(collection, record, callback){
     mongo.connect(insertUser);
 }
 
-
 function getdb(collection, record, callback){
     var getUser = function(err, db){
         db.collection(collection).findOne(record, function(err, result){
             if (err) {
                 console.log(err);
             } else {
-                callback(result)
+                callback(result);
             }
-            //Close connection
             db.close();
         });
-        db.close();
     }
     return mongo.connect(getUser);
+}
+
+function updatedb(collection, criteria, update, callback){
+  var user = function(err, db){
+    db.collection(collection).update(criteria, update, callback);
+    db.close();
+  }
+  mongo.connect(user);
 }
 
 
@@ -77,7 +82,7 @@ function getdbBySearchKey(collection, searchKey, callback) {
 
 function getdbById(collection, id, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').findOne(ObjectId(id), function(err, result){
+        db.collection(collection).findOne(ObjectId(id), function(err, result){
             if (err) {
                 console.log(err);
             } else {
@@ -108,8 +113,27 @@ router.get('/articles/article/:id', function(req, res) {
     })
 });
 
+router.post('articles/usercollection', function(req, res){
+  getdb('users', {'username': req.body.username}, function(user) {
+      res.json(user);
+  });
+})
+
+router.post('/api/articles/save', function(req, res){
+  var data = req.body.article;
+  var username = req.body.username;
+  updatedb('users', {'username': username}, {$push: {'saved': data}}, function(err, user) {
+      if (!err) {
+        res.json(user);
+      } else {
+        res.status(400);
+      }
+  })
+})
+
 router.post("/articles/new", function(req, res) {
-    var article = req.body;
+    var username = req.body.username;
+    var article = req.body.article;
     article['timestamp'] = Date.now();
     article['visable'] = true;
     article['tags'] = [];
@@ -122,10 +146,16 @@ router.post("/articles/new", function(req, res) {
             delete filledArticle['content']['additionalData']
             delete filledArticle['content']['entities']
             insertdb('Article', filledArticle, function(err, record) {
-                console.log(err)
                 if (!err) {
                     console.log("Article inserted");
-                    res.json({"_id": record.ops[0]._id, "title": record.ops[0].title});
+                    var data = {"_id": record.ops[0]._id, "title": record.ops[0].title};
+                    updatedb('users', {'username': username}, {$push: {'posts': data}}, function(err, user) {
+                        if (!err) {
+                          res.json(data);
+                        } else {
+                          res.status(400);
+                        }
+                    });
                 } else {
                     res.status(400);
                 }

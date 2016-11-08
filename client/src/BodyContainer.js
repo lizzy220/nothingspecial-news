@@ -4,6 +4,7 @@ import CommentContainer from './CommentContainer'
 import { Grid, Segment } from 'semantic-ui-react';
 import request from 'superagent';
 import ArticleContainer from './ArticleContainer';
+import jwtDecode from 'jwt-decode';
 
 class HomeBodyContainer extends Component{
   constructor(){
@@ -70,16 +71,20 @@ class UserAccountBodyContainer extends Component{
 
   componentDidMount() {
     var self = this;
+    const data = {'username': jwtDecode(localStorage.jwtToken).username};
+    console.log(data.username);
     request
-     .get('/api/articles/search')
-     .set('Accept', 'application/json')
-     .end(function(err, res) {
-       if (err || !res.ok) {
-         console.log('fail to load initial list', err);
-       } else {
-         self.handlePostSavedArticlesLoad(res.body);
-       }
-     });
+      .post('/api/articles/usercollection')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end(function(err, res) {
+         if (err || !res.ok) {
+           console.log('fail to load user collection', err);
+         } else {
+           console.log(res.body);
+           self.handlePostSavedArticlesLoad(res.body);
+         }
+       });
   }
 
   componentWillUnmount(){

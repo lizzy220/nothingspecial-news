@@ -10,7 +10,7 @@ class CommentContainer extends Component {
     render() {
         const comments = [{'author': 'Yangyang', 'text': 'Great post!', 'timestamp': '1 days ago'}, {'author': 'Xi', 'text': 'La La La!', 'timestamp': '1 days ago'}]
         const commentListItem = comments.map(comment =>
-            <Comment>
+            <Comment key="comment.author" >
                 <Comment.Content>
                     <Comment.Author as='a'>{comment.author}</Comment.Author>
                     <Comment.Metadata>
@@ -23,9 +23,9 @@ class CommentContainer extends Component {
         return (
             <Comment.Group>
                 <Header as='h3' dividing>Comments</Header>
-                <div class="ui segments">
-                   <div class="ui segment">{commentListItem}</div>
-                   <div class="ui segment">
+                <div className="ui segments">
+                   <div className="ui segment">{commentListItem}</div>
+                   <div className="ui segment">
                     <Form size="small" onSubmit={e => e.preventDefault()}>
                         <Form.TextArea rows="3"/>
                         <Button basic fluid size="tiny" color="black" content='Add Comment' labelPosition='left' icon='comments'  />
