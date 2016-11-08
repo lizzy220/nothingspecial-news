@@ -1,29 +1,16 @@
 import React from 'react';
-import Validator from 'validator';
-import isEmpty from 'lodash/isEmpty';
+import {  browserHistory } from 'react-router';
+import validateInput from './validateInput';
 
-function validateInput(data){
-  let errors = {};
-  if(Validator.isEmpty(data.username)){
-    errors.username = 'This field is required';
-  }
-  if(Validator.isEmpty(data.password)){
-    errors.password  = 'This field is required';
-  }
-  return{
-    errors,
-    isValid: isEmpty(errors)
-  }
-}
-
-var error = {};
 
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password:''
+      password: '',
+      errors: {},
+      isLoading: false
     }
 
     this.onChange = this.onChange.bind(this);
@@ -34,22 +21,27 @@ class SignupForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;
+  }
 
   onSubmit(e) {
     e.preventDefault();
-    this.setState({});
-    const { errors, isValid } = validateInput(this.state);
-    // console.log(errors);
-    // console.log(this.state);
-    error = errors;
-    if(isValid){
-      this.props.userSignupRequest(this.state);
+    if(this.isValid()){
+      this.setState({ errors: {}, isLoading: true });
+      this.props.userSignupRequest(this.state).then(
+        () => browserHistory.push('/home'),
+        ( err ) => this.setState({errors: err.response.data, isLoading: false})
+      );
     }
   }
 
   render() {
-    const errors = error;
+    const errors = this.state.errors;
     console.log(errors);
     return (
       <form className="ui form" onSubmit={this.onSubmit}>
@@ -63,20 +55,20 @@ class SignupForm extends React.Component {
             name="username"
             className="ui input focus"
           />
-          {errors.username && <span className="">{errors.username}</span>}
+          {errors.username && <div className="ui pointing red basic label">{errors.username}</div>}
         </div>
         <div className="field">
           <label>Password</label>
           <input
             value={this.state.password}
             onChange={this.onChange}
-            type="text"
+            type="password"
             name="password"
           />
-          {errors.username && <span className="">{errors.username}</span>}
+          {errors.password && <div className="ui pointing red basic label">{errors.password}</div>}
         </div>
         <div>
-          <button className="ui primary button">Sign Up</button>
+          <button disabled={this.state.isLoading} className="ui primary button">Sign Up</button>
         </div>
       </form>
     );

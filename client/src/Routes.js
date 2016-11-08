@@ -10,7 +10,7 @@ import {HomeBodyContainer,UserAccountBodyContainer} from './BodyContainer';
 import './index.css';
 import '../../semantic/dist/semantic.min.css';
 import SignupPage from './SignupPage';
-import LoginForm from './LoginForm';
+import LoginPage from './LoginPage';
 
 
 
@@ -18,11 +18,11 @@ import LoginForm from './LoginForm';
 export default (
   <Router history={browserHistory}>
     <Route component={MainLayout}>
-      <Route path="/" component={HomeBodyContainer}/>
+      <Route path="/home" component={HomeBodyContainer}/>
       <Route path="/foo" component={Foo}/>
 
     </Route>
-    <Route path="/login" component={LoginForm}/>
+    <Route path="/" component={LoginPage}/>
     <Route path="/signup" component={SignupPage}/>
   </Router>
 )

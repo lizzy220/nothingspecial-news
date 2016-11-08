@@ -5,6 +5,9 @@ var bodyParser = require('body-parser');
 var ObjectId = require('mongodb').ObjectId;
 var Validator = require('validator');
 var isEmpty = require('lodash/isEmpty');
+var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+
 router.use(bodyParser.json()); // support json encoded bodies
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -14,6 +17,22 @@ function insertdb(collection, record, callback){
         db.close();
     }
     mongo.connect(insertUser);
+}
+
+function getdb(collection, record, callback){
+    var getUser = function(err, db){
+        db.collection(collection).findOne(record, function(err, result){
+            if (err) {
+                console.log(err);
+            } else {
+                callback(result)
+            }
+            //Close connection
+            db.close();
+        });
+        db.close();
+    }
+    return mongo.connect(getUser);
 }
 
 function getdbAll(collection, callback) {
@@ -152,8 +171,44 @@ function validateInput(data){
 router.post("/users", function(req, res){
   console.log(req.body);
   const { errors, isValid } = validateInput(req.body);
-  if(!isValid){
+  if(isValid){
+    res.json({success: true});
+    encrypt_password = bcrypt.hashSync(req.body.password, 10);
+    var data = {
+      username: req.body.username,
+      password: encrypt_password,
+      saved: [],
+      posts: []
+    }
+    insertdb('users', data, function(err, record) {
+      console.log(err)
+      if (!err) {
+          console.log("User inserted");
+      } else {
+          res.status(400);
+      }
+    });
+  }else{
     res.status(400).json(errors);
   }
+})
+
+router.post("/auth", function(req, res){
+  var data = { username: req.body.username };
+  console.log(data);
+  getdb('users', data, function(userInfo){
+    if(userInfo){
+      if(bcrypt.compareSync(req.body.password, userInfo.password)){
+        const token = jwt.sign({
+          username: userInfo.username
+        }, 'nothingspecial');
+        res.json({ token });
+      }else{
+        res.status(401).json({errors: { form: 'Invalid Username or Password' } });
+      }
+    }else{
+      res.status(401).json({errors: { form: 'Invalid Username or Password' } });
+    }
+  });
 })
 module.exports = router;
