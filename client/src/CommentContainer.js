@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import {Comment, Form, Header, Button} from 'semantic-ui-react';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
 
 class CommentContainer extends Component {
-    constructor(){
-        super();
-    }
+    // constructor(){
+    //     super();
+    // }
 
     render() {
         const comments = [{'author': 'Yangyang', 'text': 'Great post!', 'timestamp': '1 days ago'}, {'author': 'Xi', 'text': 'La La La!', 'timestamp': '1 days ago'}]
         const commentListItem = comments.map(comment =>
-            <Comment key="comment.author" >
+            <Comment key={comment.text} >
                 <Comment.Content>
                     <Comment.Author as='a'>{comment.author}</Comment.Author>
                     <Comment.Metadata>

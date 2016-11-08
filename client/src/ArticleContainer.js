@@ -45,7 +45,7 @@ class ArticleContainer extends Component{
       var formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       var description = this.props.clickedArticle.description === '' ? '' : this.props.clickedArticle.description;
       var article_body = this.props.clickedArticle.content.body.split('\n').map((paragraph) =>
-        <p>{paragraph}</p>
+        <p key={{paragraph}}>{paragraph}</p>
       );
       return(
         <div>
