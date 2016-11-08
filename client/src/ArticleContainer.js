@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Popup, Icon} from 'semantic-ui-react';
+import jwtDecode from 'jwt-decode';
 
 class ArticleContainer extends Component{
   constructor(){
@@ -17,6 +18,8 @@ class ArticleContainer extends Component{
         <div>
           <h1>Nothing Special</h1>
           <div>Knowledge Has Never Been So Sexy!</div>
+          // example for using token
+          <div>{jwtDecode(localStorage.jwtToken).username}</div>
         </div>
       );
     }else{
