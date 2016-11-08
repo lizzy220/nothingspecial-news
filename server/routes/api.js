@@ -173,21 +173,29 @@ function validateInput(data){
 router.post("/users", function(req, res){
   console.log(req.body);
   const { errors, isValid } = validateInput(req.body);
+  var query = { username: req.body.username };
   if(isValid){
-    res.json({success: true});
-    encrypt_password = bcrypt.hashSync(req.body.password, 10);
-    var data = {
-      username: req.body.username,
-      password: encrypt_password,
-      saved: [],
-      posts: []
-    }
-    insertdb('users', data, function(err, record) {
-      console.log(err)
-      if (!err) {
-          console.log("User inserted");
-      } else {
-          res.status(400);
+    getdb('users', query, function(userInfo){
+      if(userInfo){
+        errors.username = 'Username already exist!';
+        res.status(400).json(errors);
+      }else{
+        res.json({success: true});
+        encrypt_password = bcrypt.hashSync(req.body.password, 10);
+        var data = {
+          username: req.body.username,
+          password: encrypt_password,
+          saved: [],
+          posts: []
+        }
+        insertdb('users', data, function(err, record) {
+          // console.log(err)
+          if (!err) {
+              console.log("User inserted");
+          } else {
+              res.status(400);
+          }
+        });
       }
     });
   }else{
