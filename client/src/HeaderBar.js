@@ -17,7 +17,6 @@ class HeaderBar extends Component{
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
-        // this.handleUserAccount=this.handleUserAccount.bind(this);
         this.handleNewPost=this.handleNewPost.bind(this);
     }
 
