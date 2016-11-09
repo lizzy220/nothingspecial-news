@@ -55,7 +55,7 @@ class HeaderBar extends Component{
                                 <i className="search link icon"></i>
                             </div>
                         </div>
-                        <Link as='a' className='item' to='/userAccount' style={meue_item_style}><i className="user icon large"></i>My Account</Link>
+                        <Link as='a' className='item' to='/userAccount' style={meue_item_style}><i className="user icon"></i>My Account</Link>
                         <a className="item"><i className="sign out icon large"></i></a>
             </div>
                 </div>
