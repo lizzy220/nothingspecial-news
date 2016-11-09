@@ -38,6 +38,10 @@ class HeaderBar extends Component{
       this.props.onNewPost(newArticle);
     }
 
+    logout(){
+      localStorage.removeItem('jwtToken');
+    }
+
     render(){
         return(
             <div className="ui top attached inverted segment" style={{padding: '0'}}>
@@ -56,7 +60,7 @@ class HeaderBar extends Component{
                             </div>
                         </div>
                         <Link as='a' className='item' to='/userAccount' style={meue_item_style}><i className="user icon large"></i>My Account</Link>
-                        <a className="item"><i className="sign out icon large"></i></a>
+                        <a className="item" onClick={this.logout}><Link to="/"><i className="sign out icon large"></i></Link></a>
             </div>
                 </div>
         )
