@@ -107,12 +107,6 @@ router.get('/articles/search', function(req, res) {
     })
 });
 
-// router.get('/articles/article/:id', function(req, res) {
-//     getdbById('Article', req.params.id, function(article) {
-//         res.json(article);
-//     })
-// });
-
 router.post('/articles/article/:id', function(req, res) {
     getdb('users', {'username': req.body.username, 'saved._id': req.params.id}, function(userInfo){
         saved = false
@@ -163,8 +157,8 @@ router.post("/articles/new", function(req, res) {
     var username = req.body.username;
     var article = req.body.article;
     article['timestamp'] = Date.now();
-    article['visable'] = true;
-    article['tags'] = [];
+    // article['visable'] = true;
+    // article['tags'] = [];
     article['comments'] = [];
     return get_article_content(article, function(filledArticle) {
         // console.log(article)
@@ -190,9 +184,19 @@ router.post("/articles/new", function(req, res) {
             });
         }
     })
-
 });
 
+router.post('/comments/new/:id', function(req, res){
+  var articleId = req.params.id;
+  var comment = req.body;
+  updatedb('Article', {'_id': ObjectId(articleId)}, {$push: {'comments': comment}}, function(err, article){
+    if(!err){
+      res.json(article);
+    }else{
+      res.status(400);
+    }
+  });
+})
 
 function get_article_content(article, callback) {
     var https = require('https');

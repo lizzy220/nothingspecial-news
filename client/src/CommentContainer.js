@@ -1,16 +1,41 @@
 import React, { Component } from 'react';
-import {Comment, Form, Header, Button} from 'semantic-ui-react';
-// import { render } from 'react-dom';
+import {Comment, Header, Button} from 'semantic-ui-react';
+import request from 'superagent';
+import jwtDecode from 'jwt-decode';
 
 class CommentContainer extends Component {
-    // constructor(){
-    //     super();
-    // }
+    constructor(){
+        super();
+        this.handleNewComment=this.handleNewComment.bind(this);
+    }
+
+    handleNewComment(){
+      console.log('comment');
+      var self = this
+      var date = new Date(Date.now());
+      var formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      const data = {'author': jwtDecode(localStorage.jwtToken).username,
+                    'text': this.refs.commentInput.value,
+                    'timestamp':formatted};
+      this.props.onNewComment(data);
+      this.refs.commentInput.value = '';
+      request
+        .post('/api/comments/new/' + this.props.clickedArticleId)
+        .send(data)
+        .set('Accept', 'application/json')
+        .end(function(err, res){
+          if (err || !res.ok) {
+            alert('comment fail');
+          } else {
+
+            console.log('comment successfully');
+          }
+      });
+    }
 
     render() {
-        const comments = [{'author': 'Yangyang', 'text': 'Great post!', 'timestamp': '1 days ago'}, {'author': 'Xi', 'text': 'La La La!', 'timestamp': '1 days ago'}]
-        const commentListItem = comments.map(comment =>
-            <Comment key={comment.text} >
+        const commentListItem = this.props.comments.map((comment, i) =>
+            <Comment key={i} >
                 <Comment.Content>
                     <Comment.Author as='a'>{comment.author}</Comment.Author>
                     <Comment.Metadata>
@@ -20,17 +45,16 @@ class CommentContainer extends Component {
                 </Comment.Content>
             </Comment>
         );
+
         return (
             <Comment.Group>
                 <Header as='h3' dividing>Comments</Header>
-                <div className="ui segments">
-                   <div className="ui segment">{commentListItem}</div>
-                   <div className="ui segment">
-                    <Form size="small" onSubmit={e => e.preventDefault()}>
-                        <Form.TextArea rows="3"/>
-                        <Button basic fluid size="tiny" color="black" content='Add Comment' labelPosition='left' icon='comments'  />
-                    </Form>
-                    </div>
+                <div>
+                   <div className="ui segment" style={{height: '60vh', overflow: 'auto'}}>{commentListItem}</div>
+                   <div className="ui form" size="small">
+                       <textarea style={{marginBottom: "10px"}} type='text' ref="commentInput" rows="3"/>
+                       <Button fluid size="tiny"  content='Add Comment' labelPosition='left' icon='comments'  onClick={this.handleNewComment} />
+                   </div>
                  </div>
             </Comment.Group>
         );

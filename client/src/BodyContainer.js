@@ -11,7 +11,7 @@ class HomeBodyContainer extends Component{
     super();
     this.handleArticleClick=this.handleArticleClick.bind(this);
     this.handleArticlesLoad=this.handleArticlesLoad.bind(this);
-
+    this.handleNewComment=this.handleNewComment.bind(this);
   }
 
   componentDidMount() {
@@ -40,11 +40,15 @@ class HomeBodyContainer extends Component{
         this.props.onArticleClick(articleId);
     }
 
+    handleNewComment(newComment){
+      this.props.onNewComment(newComment);
+    }
+
     render(){
         return(
             <Segment attached className='BodyContainer'>
-                <Grid divided>
-                    <Grid.Column width={4}>
+                <Grid divided >
+                    <Grid.Column width={4} style={{height:'91vh', overflow:'auto'}}>
                         <ArticleItemsList clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
                     <Grid.Column width={9}>
@@ -53,7 +57,7 @@ class HomeBodyContainer extends Component{
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={3}>
-                        <CommentContainer/>
+                        <CommentContainer clickedArticleId={this.props.clickedArticleId} onNewComment={this.handleNewComment} comments={this.props.comments}/>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -67,6 +71,7 @@ class UserAccountBodyContainer extends Component{
     this.handleArticleClick=this.handleArticleClick.bind(this);
     this.handlePostSavedArticlesLoad=this.handlePostSavedArticlesLoad.bind(this);
     this.deleteArticle=this.deleteArticle.bind(this);
+    this.handleNewComment=this.handleNewComment.bind(this);
   }
 
   componentDidMount() {
@@ -100,20 +105,24 @@ class UserAccountBodyContainer extends Component{
     this.props.onDeleteArticle();
   }
 
+  handleNewComment(newComment){
+    this.props.onNewComment(newComment);
+  }
+
   render(){
     return(
         <Segment attached className='BodyContainer'>
             <Grid divided>
-                <Grid.Column width={4} >
+                <Grid.Column width={4} style={{height:'91vh', overflow:'auto'}}>
                     <PostSavedList postArticles={this.props.postArticles} savedArticles={this.props.savedArticles} clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick}/>
                 </Grid.Column>
-                <Grid.Column width={9}>
+                <Grid.Column width={9} >
                     <Segment basic>
                         <ArticleContainer onDeleteArticle={this.deleteArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                     </Segment>
                 </Grid.Column>
-                <Grid.Column width={3}>
-                    <CommentContainer/>
+                <Grid.Column width={3} >
+                    <CommentContainer clickedArticleId={this.props.clickedArticleId} onNewComment={this.handleNewComment} comments={this.props.comments}/>
                 </Grid.Column>
             </Grid>
         </Segment>

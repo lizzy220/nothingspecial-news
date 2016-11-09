@@ -11,13 +11,15 @@ class MainLayout extends Component {
             postArticles: [],
             savedArticles: [],
             clickedArticleId: '',
-            clickedArticle: {}
+            clickedArticle: {},
+            comments: []
         };
         this.handleArticlesLoad = this.handleArticlesLoad.bind(this);
         this.handlePostSavedArticlesLoad = this.handlePostSavedArticlesLoad.bind(this);
         this.handleNewPost = this.handleNewPost.bind(this);
         this.handleArticleClick=this.handleArticleClick.bind(this);
         this.deleteArticle=this.deleteArticle.bind(this);
+        this.handleNewComment=this.handleNewComment.bind(this);
     }
 
     handleNewPost(newArticle){
@@ -35,6 +37,10 @@ class MainLayout extends Component {
             savedArticles: articles.saved});
     }
 
+    handleNewComment(newComment){
+      this.setState({comments: this.state.comments.concat(newComment)});
+    }
+
     handleArticleClick(articleId){
         if(articleId !== ''){
             var self = this;
@@ -48,11 +54,14 @@ class MainLayout extends Component {
                         console.log('fail to load article', err);
                     } else {
                         self.setState({clickedArticle: res.body,
-                            clickedArticleId: articleId});
+                            clickedArticleId: articleId,
+                            comments: res.body.comments});
                     }
                 });
         }else{
-            this.setState({clickedArticleId: articleId});
+            this.setState({clickedArticleId: articleId,
+                          comments: [],
+                        clickedArticle: {}});
         }
     }
 
@@ -96,10 +105,12 @@ class MainLayout extends Component {
                         savedArticles: this.state.savedArticles,
                         clickedArticleId: this.state.clickedArticleId,
                         clickedArticle: this.state.clickedArticle,
+                        comments: this.state.comments,
                         onArticlesLoad: this.handleArticlesLoad,
                         onPostSavedArticlesLoad: this.handlePostSavedArticlesLoad,
                         onArticleClick: this.handleArticleClick,
                         onDeleteArticle: this.deleteArticle,
+                        onNewComment: this.handleNewComment,
                     })}
                 </main>
             </div>

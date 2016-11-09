@@ -46,7 +46,7 @@ class ArticleContainer extends Component{
   }
 
   render(){
-    if(!Object.prototype.hasOwnProperty.call(this.props.clickedArticle, '_id') || this.props.clickedArticleId === ''){
+    if(!Object.prototype.hasOwnProperty.call(this.props.clickedArticle, '_id')){
       return(
         <div>
           <h1>Nothing Special</h1>
