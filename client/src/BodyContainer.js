@@ -53,7 +53,7 @@ class HomeBodyContainer extends Component{
         return(
             <Segment attached className='BodyContainer'>
                 <Grid divided >
-                    <Grid.Column width={4} style={{height:'91vh', overflow:'auto'}}>
+                    <Grid.Column width={4} style={{height:'91vh', overflowY: 'auto', overflowX:'hidden'}}>
                         <ArticleItemsList clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
                     <Grid.Column width={9}>
@@ -123,7 +123,7 @@ class UserAccountBodyContainer extends Component{
     return(
         <Segment attached className='BodyContainer'>
             <Grid divided>
-                <Grid.Column width={4} style={{height:'91vh', overflow:'auto'}}>
+                <Grid.Column width={4} style={{height:'91vh', overflowY: 'auto', overflowX:'hidden'}}>
                     <PostSavedList postArticles={this.props.postArticles} savedArticles={this.props.savedArticles} clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick}/>
                 </Grid.Column>
                 <Grid.Column width={9} >
