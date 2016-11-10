@@ -3,6 +3,7 @@ import './MainLayout.css';
 import HeaderBar from './HeaderBar';
 import request from 'superagent';
 import jwtDecode from 'jwt-decode';
+import {route as onEnter} from "react-router/umd/ReactRouter";
 
 class MainLayout extends Component {
     constructor(){
@@ -13,7 +14,8 @@ class MainLayout extends Component {
             clickedArticleId: '',
             clickedArticle: {},
             comments: [],
-            saved: false
+            saved: false,
+            refresh: true
         };
         this.handleArticlesLoad = this.handleArticlesLoad.bind(this);
         this.handlePostSavedArticlesLoad = this.handlePostSavedArticlesLoad.bind(this);
@@ -22,6 +24,7 @@ class MainLayout extends Component {
         this.deleteArticle=this.deleteArticle.bind(this);
         this.handleNewComment=this.handleNewComment.bind(this);
         this.saveArticle = this.saveArticle.bind(this)
+
     }
 
     handleNewPost(newArticle){

@@ -44,7 +44,7 @@ function updatedb(collection, criteria, update, callback){
 
 function getdbAll(collection, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').find({"visible": true}, {title: 1}).toArray(function(err, result){
+        db.collection('Article').find({"visible": true}, {title: 1}).sort({"timestamp": -1}).toArray(function(err, result){
             if (err) {
                 console.log(err);
             } else if (result.length) {
