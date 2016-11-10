@@ -69,9 +69,7 @@ class MainLayout extends Component {
         var self = this;
         var postArticles = self.state.postArticles.filter(function(article){ return article._id !== self.state.clickedArticleId; });
         if(postArticles.length < self.state.postArticles.length){
-            var articles = self.state.articles.filter(function(article){ return article._id !== self.state.clickedArticleId; });
             self.setState({
-                articles: articles,
                 postArticles: postArticles,
                 clickedArticleId: '',
                 clickedArticle: {}
