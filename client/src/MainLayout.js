@@ -12,7 +12,8 @@ class MainLayout extends Component {
             savedArticles: [],
             clickedArticleId: '',
             clickedArticle: {},
-            comments: []
+            comments: [],
+            saved: false
         };
         this.handleArticlesLoad = this.handleArticlesLoad.bind(this);
         this.handlePostSavedArticlesLoad = this.handlePostSavedArticlesLoad.bind(this);
@@ -20,6 +21,7 @@ class MainLayout extends Component {
         this.handleArticleClick=this.handleArticleClick.bind(this);
         this.deleteArticle=this.deleteArticle.bind(this);
         this.handleNewComment=this.handleNewComment.bind(this);
+        this.saveArticle = this.saveArticle.bind(this)
     }
 
     handleNewPost(newArticle){
@@ -55,14 +57,21 @@ class MainLayout extends Component {
                     } else {
                         self.setState({clickedArticle: res.body,
                             clickedArticleId: articleId,
-                            comments: res.body.comments});
+                            comments: res.body.comments,
+                            saved: res.body.saved
+                        });
                     }
                 });
         }else{
             this.setState({clickedArticleId: articleId,
                           comments: [],
+                            saved: false,
                         clickedArticle: {}});
         }
+    }
+
+    saveArticle() {
+        this.setState({saved: true});
     }
 
     deleteArticle(){
@@ -104,11 +113,13 @@ class MainLayout extends Component {
                         clickedArticleId: this.state.clickedArticleId,
                         clickedArticle: this.state.clickedArticle,
                         comments: this.state.comments,
+                        saved: this.state.saved,
                         onArticlesLoad: this.handleArticlesLoad,
                         onPostSavedArticlesLoad: this.handlePostSavedArticlesLoad,
                         onArticleClick: this.handleArticleClick,
                         onDeleteArticle: this.deleteArticle,
                         onNewComment: this.handleNewComment,
+                        onSaveArticle: this.saveArticle
                     })}
                 </main>
             </div>

@@ -3,7 +3,6 @@ import {  browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { login } from './login';
 import validateInput from './validateInput';
-import { Link } from 'react-router';
 
 
 

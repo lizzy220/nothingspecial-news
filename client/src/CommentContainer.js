@@ -11,7 +11,6 @@ class CommentContainer extends Component {
 
     handleNewComment(){
       console.log('comment');
-      var self = this
       var date = new Date(Date.now());
       var formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       const data = {'author': jwtDecode(localStorage.jwtToken).username,
