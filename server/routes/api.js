@@ -157,8 +157,8 @@ router.post("/articles/new", function(req, res) {
     var username = req.body.username;
     var article = req.body.article;
     article['timestamp'] = Date.now();
-    // article['visable'] = true;
-    // article['tags'] = [];
+    article['visable'] = true;
+    article['tags'] = [];
     article['comments'] = [];
     return get_article_content(article, function(filledArticle) {
         // console.log(article)
