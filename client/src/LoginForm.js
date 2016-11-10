@@ -38,7 +38,7 @@ class LoginForm extends React.Component {
     if(this.isValid()){
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
-        ( res ) => browserHistory.push('/home'),
+        () => browserHistory.push('/home'),
         ( err ) => this.setState({errors: err.response.data.errors, isLoading: false})
       );
     }
@@ -73,7 +73,7 @@ class LoginForm extends React.Component {
         </div>
         <div>
           <button className="ui primary button">Login</button>
-          
+
         </div>
       </form>
     );

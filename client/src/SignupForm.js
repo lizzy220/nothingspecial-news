@@ -35,6 +35,7 @@ class SignupForm extends React.Component {
       this.setState({ errors: {}, isLoading: true });
       this.props.userSignupRequest(this.state).then(
         () => browserHistory.push('/home'),
+        // ({data} => this.setState( {errors: data} ))
         ( err ) => this.setState({errors: err.response.data, isLoading: false})
       );
     }

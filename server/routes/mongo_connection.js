@@ -1,7 +1,3 @@
-/**
- * Created by Marvin on 11/5/16.
- */
-//need to be replaced by new mlab account
 var MongoClient = require('mongodb').MongoClient;
 var mongoURI = 'mongodb://ec2-54-175-174-41.compute-1.amazonaws.com:465/'
 var db_name = "nothingspecial"
