@@ -38,6 +38,10 @@ class HeaderBar extends Component{
       this.props.onNewPost(newArticle);
     }
 
+    handleHomeRedirect () {
+        window.location.href = "/home";
+    }
+
     logout(){
       localStorage.removeItem('jwtToken');
     }
@@ -50,7 +54,7 @@ class HeaderBar extends Component{
                     Nothing Special
                 </span>
 
-                  <Link as='a' className='item' to='/home' style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
+                  <a className='item' to='/home' onClick={this.handleHomeRedirect} style={meue_item_style}><i className="home icon"></i>View All Articles</a>
 
                 <AddPostModal onNewPost={this.handleNewPost}/>
                         <div className="right item">

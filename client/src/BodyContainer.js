@@ -12,6 +12,7 @@ class HomeBodyContainer extends Component{
     this.handleArticleClick=this.handleArticleClick.bind(this);
     this.handleArticlesLoad=this.handleArticlesLoad.bind(this);
     this.handleNewComment=this.handleNewComment.bind(this);
+      this.saveArticle = this.saveArticle.bind(this);
   }
 
   componentDidMount() {
@@ -44,16 +45,20 @@ class HomeBodyContainer extends Component{
       this.props.onNewComment(newComment);
     }
 
+    saveArticle() {
+        this.props.onSaveArticle();
+    }
+
     render(){
         return(
             <Segment attached className='BodyContainer'>
                 <Grid divided >
-                    <Grid.Column width={4} style={{height:'91vh', overflow:'auto'}}>
+                    <Grid.Column width={4} style={{height:'91vh', overflowY: 'auto', overflowX:'hidden'}}>
                         <ArticleItemsList clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
                     <Grid.Column width={9}>
                         <Segment basic>
-                            <ArticleContainer clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
+                            <ArticleContainer saved={this.props.saved} onSaveArticle={this.saveArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={3}>
@@ -72,6 +77,7 @@ class UserAccountBodyContainer extends Component{
     this.handlePostSavedArticlesLoad=this.handlePostSavedArticlesLoad.bind(this);
     this.deleteArticle=this.deleteArticle.bind(this);
     this.handleNewComment=this.handleNewComment.bind(this);
+      this.saveArticle = this.saveArticle.bind(this)
   }
 
   componentDidMount() {
@@ -109,16 +115,20 @@ class UserAccountBodyContainer extends Component{
     this.props.onNewComment(newComment);
   }
 
+  saveArticle() {
+      this.props.onSaveArticle()
+  }
+
   render(){
     return(
         <Segment attached className='BodyContainer'>
             <Grid divided>
-                <Grid.Column width={4} style={{height:'91vh', overflow:'auto'}}>
+                <Grid.Column width={4} style={{height:'91vh', overflowY: 'auto', overflowX:'hidden'}}>
                     <PostSavedList postArticles={this.props.postArticles} savedArticles={this.props.savedArticles} clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick}/>
                 </Grid.Column>
                 <Grid.Column width={9} >
                     <Segment basic>
-                        <ArticleContainer onDeleteArticle={this.deleteArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
+                        <ArticleContainer saved={this.props.saved} onSaveArticle={this.saveArticle} onDeleteArticle={this.deleteArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                     </Segment>
                 </Grid.Column>
                 <Grid.Column width={3} >
