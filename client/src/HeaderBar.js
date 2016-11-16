@@ -39,7 +39,7 @@ class HeaderBar extends Component{
     }
 
     handleHomeRedirect () {
-        window.location.href = "/home";
+          window.location.href = "/home";
     }
 
     logout(){
@@ -54,7 +54,7 @@ class HeaderBar extends Component{
                     Nothing Special
                 </span>
 
-                <Link as='a' className='item' to='/home' style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
+                <Link as='a' className='item' to='/home' onClick={this.handleHomeRedirect} style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
 
                 <AddPostModal onNewPost={this.handleNewPost}/>
                 <div className="right item">
