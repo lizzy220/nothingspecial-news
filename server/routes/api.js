@@ -129,6 +129,16 @@ router.post('/articles/article/:id', function(req, res) {
     });
 });
 
+router.post('/newDescription/:id', function(req, res){
+  updatedb('Article', {'_id': ObjectId(req.params.id)}, {$set: {'description': req.body.description}}, function(err, user) {
+      if (!err) {
+          res.json({'info': 'success'});
+      } else {
+          res.status(400);
+      }
+  });
+});
+
 router.post('/articles/usercollection', function(req, res){
     console.log(req.body.username)
     getdb('users', {'username': req.body.username}, function(user) {

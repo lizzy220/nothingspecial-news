@@ -4,13 +4,13 @@ import './MainLayout.css';
 
 
 class ArticleItemsList extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.handleClick=this.handleClick.bind(this);
   }
 
-  handleClick(articleId){
-    this.props.onArticleClick(articleId);
+  handleClick(articleId, category){
+    this.props.onArticleClick(articleId, category);
   }
 
   render(){
@@ -18,7 +18,7 @@ class ArticleItemsList extends Component{
       <div className="ui middle aligned animated list divided items">
         <div></div>
         {this.props.articles.map((article)=>
-          <ArticleItem key={article._id} clickedArticleId={this.props.clickedArticleId} articleInfo={article} onArticleClick={this.handleClick} />)}
+          <ArticleItem key={article._id} category={this.props.category} clickedArticleId={this.props.clickedArticleId} articleInfo={article} onArticleClick={this.handleClick} />)}
         <div></div>
         </div>
     );
@@ -36,13 +36,13 @@ var clickedStyle={
 
 
 class ArticleItem extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.handleClick=this.handleClick.bind(this);
   }
 
   handleClick(){
-    this.props.onArticleClick(this.props.articleInfo._id);
+    this.props.onArticleClick(this.props.articleInfo._id, this.props.category);
   }
 
   render(){
@@ -59,26 +59,26 @@ class PostSavedList extends Component{
     this.handleArticleClick=this.handleArticleClick.bind(this);
   }
 
-  handleArticleClick(articleId){
-    this.props.onArticleClick(articleId);
+  handleArticleClick(articleId, category){
+    this.props.onArticleClick(articleId, category);
   }
 
   render(){
     return(
       <Accordion>
-        <Accordion.Title >
+        <Accordion.Title>
           <Icon name='dropdown' />
           Post Articles
         </Accordion.Title>
         <Accordion.Content>
-          <ArticleItemsList clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.postArticles} />
+          <ArticleItemsList category='post' clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.postArticles} />
         </Accordion.Content>
         <Accordion.Title>
           <Icon name='dropdown' />
           Saved Articles
         </Accordion.Title>
         <Accordion.Content>
-          <ArticleItemsList clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.savedArticles} />
+          <ArticleItemsList category='saved' clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.savedArticles} />
         </Accordion.Content>
       </Accordion>
     );

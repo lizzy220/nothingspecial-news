@@ -3,7 +3,7 @@ import './MainLayout.css';
 import HeaderBar from './HeaderBar';
 import request from 'superagent';
 import jwtDecode from 'jwt-decode';
-import {route as onEnter} from "react-router/umd/ReactRouter";
+import update from 'react-addons-update';
 
 class MainLayout extends Component {
     constructor(){
@@ -23,8 +23,8 @@ class MainLayout extends Component {
         this.handleArticleClick=this.handleArticleClick.bind(this);
         this.deleteArticle=this.deleteArticle.bind(this);
         this.handleNewComment=this.handleNewComment.bind(this);
-        this.saveArticle = this.saveArticle.bind(this)
-
+        this.saveArticle = this.saveArticle.bind(this);
+        this.newDescription=this.newDescription.bind(this);
     }
 
     handleNewPost(newArticle){
@@ -96,6 +96,11 @@ class MainLayout extends Component {
         }
     }
 
+    newDescription(description){
+      const newClickedArticle = update(this.state.clickedArticle, {'description': {$set: description}});
+      this.setState({clickedArticle: newClickedArticle});
+    }
+
 
     getChildContext() {
         return {
@@ -122,7 +127,8 @@ class MainLayout extends Component {
                         onArticleClick: this.handleArticleClick,
                         onDeleteArticle: this.deleteArticle,
                         onNewComment: this.handleNewComment,
-                        onSaveArticle: this.saveArticle
+                        onSaveArticle: this.saveArticle,
+                        newDescription: this.newDescription
                     })}
                 </main>
             </div>

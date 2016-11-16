@@ -37,7 +37,7 @@ class HomeBodyContainer extends Component{
     this.props.onArticlesLoad(articles);
   }
 
-    handleArticleClick(articleId){
+    handleArticleClick(articleId, category){
         this.props.onArticleClick(articleId);
     }
 
@@ -54,7 +54,7 @@ class HomeBodyContainer extends Component{
             <Segment attached className='BodyContainer'>
                 <Grid divided >
                     <Grid.Column width={4} style={{height:'91vh', overflowY: 'auto', overflowX:'hidden'}}>
-                        <ArticleItemsList clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
+                        <ArticleItemsList category='' clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
                     </Grid.Column>
                     <Grid.Column width={9}>
                         <Segment basic>
@@ -73,11 +73,13 @@ class HomeBodyContainer extends Component{
 class UserAccountBodyContainer extends Component{
   constructor(){
     super();
+    this.state={category: ''};
     this.handleArticleClick=this.handleArticleClick.bind(this);
     this.handlePostSavedArticlesLoad=this.handlePostSavedArticlesLoad.bind(this);
     this.deleteArticle=this.deleteArticle.bind(this);
     this.handleNewComment=this.handleNewComment.bind(this);
-      this.saveArticle = this.saveArticle.bind(this)
+    this.saveArticle = this.saveArticle.bind(this);
+    this.newDescription=this.newDescription.bind(this);
   }
 
   componentDidMount() {
@@ -103,8 +105,8 @@ class UserAccountBodyContainer extends Component{
   handlePostSavedArticlesLoad(articles){
     this.props.onPostSavedArticlesLoad(articles);
   }
-  handleArticleClick(articleId){
-      console.log(articleId);
+  handleArticleClick(articleId, category){
+      this.setState({category: category});
       this.props.onArticleClick(articleId);
   }
   deleteArticle(){
@@ -119,6 +121,10 @@ class UserAccountBodyContainer extends Component{
       this.props.onSaveArticle()
   }
 
+  newDescription(description){
+    this.props.newDescription(description);
+  }
+
   render(){
     return(
         <Segment attached className='BodyContainer'>
@@ -128,7 +134,7 @@ class UserAccountBodyContainer extends Component{
                 </Grid.Column>
                 <Grid.Column width={9} >
                     <Segment basic>
-                        <ArticleContainer saved={this.props.saved} onSaveArticle={this.saveArticle} onDeleteArticle={this.deleteArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
+                        <ArticleContainer newDescription={this.newDescription} category={this.state.category} saved={this.props.saved} onSaveArticle={this.saveArticle} onDeleteArticle={this.deleteArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
                     </Segment>
                 </Grid.Column>
                 <Grid.Column width={3} >

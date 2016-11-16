@@ -54,18 +54,18 @@ class HeaderBar extends Component{
                     Nothing Special
                 </span>
 
-                  <a className='item' to='/home' onClick={this.handleHomeRedirect} style={meue_item_style}><i className="home icon"></i>View All Articles</a>
+                <Link as='a' className='item' to='/home' style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
 
                 <AddPostModal onNewPost={this.handleNewPost}/>
-                        <div className="right item">
-                            <div className="ui icon input">
-                                <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
-                                <i className="search link icon"></i>
-                            </div>
-                        </div>
+                <div className="right item">
+                  <div className="ui icon input">
+                    <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
+                    <i className="search link icon"></i>
+                  </div>
+                </div>
 
-                        <Link as='a' className='item' to='/userAccount' style={meue_item_style}><i className="user icon"></i>My Account</Link>
-                        <Link to="/" as='a' className="item"><i className="sign out icon large" onClick={this.logout}></i></Link>
+                <Link as='a' className='item' to='/userAccount' style={meue_item_style}><i className="user icon"></i>My Account</Link>
+                <Link to="/" as='a' className="item"><i className="sign out icon large" onClick={this.logout}></i></Link>
 
             </div>
             </div>

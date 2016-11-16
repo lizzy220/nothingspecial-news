@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Popup, Icon} from 'semantic-ui-react';
+import {Popup, Icon, Modal, Button} from 'semantic-ui-react';
 import request from 'superagent';
 import jwtDecode from 'jwt-decode';
 
@@ -8,6 +8,7 @@ class ArticleContainer extends Component{
         super(props);
         this.deleteArticle=this.deleteArticle.bind(this);
         this.saveArticle=this.saveArticle.bind(this);
+        this.newDescription=this.newDescription.bind(this);
     }
 
     deleteArticle(){
@@ -46,6 +47,10 @@ class ArticleContainer extends Component{
             });
     }
 
+    newDescription(description){
+      this.props.newDescription(description);
+    }
+
     render(){
         if(!Object.prototype.hasOwnProperty.call(this.props.clickedArticle, '_id')){
             return(
@@ -66,9 +71,9 @@ class ArticleContainer extends Component{
                     <h1>{this.props.clickedArticle.content.title}</h1>
                     <div>
                         <span><a href={this.props.clickedArticle.url}>See Original Page</a></span>
-                        <span style={{paddingLeft: '57%', paddingRight: '2%'}}>{formatted}</span>
+                        <span style={{paddingLeft: '50%', paddingRight: '2%'}}>{formatted}</span>
                         <span>
-              <SaveOrDeleteIcon saved={this.props.saved} onSaveArticle={this.saveArticle} onDeleteArticle={this.deleteArticle}/>
+              <SaveOrDeleteIcon newDescription={this.newDescription} clickedArticleId={this.props.clickedArticle._id} category={this.props.category} saved={this.props.saved} onSaveArticle={this.saveArticle} onDeleteArticle={this.deleteArticle}/>
             </span>
                     </div>
                     <div style={{marginTop: '20px'}}>
@@ -85,9 +90,14 @@ class ArticleContainer extends Component{
 class SaveOrDeleteIcon extends Component{
     constructor(props){
         super(props);
+        this.state={ open: false };
         this.deleteArticle=this.deleteArticle.bind(this);
         this.saveArticle=this.saveArticle.bind(this);
+        this.newDescription=this.newDescription.bind(this);
     }
+
+    show = (dimmer) => () => this.setState({ dimmer, open: true })
+    close = () => this.setState({ open: false })
 
     deleteArticle(){
         this.props.onDeleteArticle();
@@ -95,6 +105,24 @@ class SaveOrDeleteIcon extends Component{
 
     saveArticle(){
         this.props.onSaveArticle();
+    }
+
+    newDescription(){
+      this.props.newDescription(this.refs.descriptionInput.value);
+      var self = this;
+      var data = {'description': self.refs.descriptionInput.value};
+      request
+          .post('/api/newDescription/' + self.props.clickedArticleId)
+          .send(data)
+          .set('Accept', 'application/json')
+          .end(function(err, res){
+              if (err || !res.ok) {
+                  console.log('new description fail');
+              } else {
+                  console.log('new description successfully');
+              }
+          });
+      this.close();
     }
 
     render(){
@@ -115,14 +143,51 @@ class SaveOrDeleteIcon extends Component{
                 />
             );
         }else{
-            return(
-                <Popup
-                    trigger={<Icon circular name='trash' color='green' onClick={this.deleteArticle}/>}
-                    content='click to delete'
-                    positioning='bottom center'
-                    size='tiny'
-                />
-            );
+            if(this.props.category === 'saved'){
+              return(
+                  <Popup
+                      trigger={<Icon circular name='trash' color='green' onClick={this.deleteArticle}/>}
+                      content='click to delete'
+                      positioning='bottom center'
+                      size='tiny'
+                  />
+              );
+            }else{
+              const { open, dimmer } = this.state;
+              return(
+                <span>
+                  <Popup
+                      trigger={<Icon circular name='trash' color='green' onClick={this.deleteArticle}/>}
+                      content='click to delete'
+                      positioning='bottom center'
+                      size='tiny'
+                  />
+                  <Popup
+                      trigger={<Icon circular name='edit' color='green' onClick={this.show(true)}/>}
+                      content='click to edit description'
+                      positioning='bottom center'
+                      size='tiny'
+                  />
+                  <Modal dimmer={dimmer} open={open} onClose={this.close}>
+                      <Modal.Header>Edit the Description</Modal.Header>
+                      <Modal.Content>
+                          <div className="PostContentTable">
+                              <form className="ui form">
+                                  <div className="field">
+                                      <label>New Description</label>
+                                      <textarea rows="2" ref="descriptionInput"></textarea>
+                                  </div>
+                              </form>
+                          </div>
+                      </Modal.Content>
+                      <Modal.Actions>
+                          <Button inverted color="red" onClick={this.close}>Cancel</Button>
+                          <Button inverted color="green" onClick={this.newDescription}>Save</Button>
+                      </Modal.Actions>
+                  </Modal>
+                </span>
+              );
+            }
         }
     }
 }
