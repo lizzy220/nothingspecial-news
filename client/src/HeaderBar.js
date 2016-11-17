@@ -44,7 +44,7 @@ class HeaderBar extends Component{
 
     homeItem() {
         var location = window.location.href;
-        if (location.indexOf("/home") > 0) {
+        if (location.indexOf("/home") > 0 || location.indexOf("/article") > 0) {
             return (
                 <div className="active item" style={meue_item_style}><i className="home icon"></i>Home</div>
             )
@@ -70,7 +70,7 @@ class HeaderBar extends Component{
 
     searchboxItem(){
         var location = window.location.href;
-        if (location.indexOf("/home") > 0) {
+        if (location.indexOf("/home") > 0 || location.indexOf("/article") > 0) {
             return (
                 <div className="ui icon input">
                     <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />

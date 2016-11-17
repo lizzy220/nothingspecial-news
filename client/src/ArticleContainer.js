@@ -51,6 +51,17 @@ class ArticleContainer extends Component{
         this.props.newDescription(description);
     }
 
+    imageItem() {
+        if (this.props.clickedArticle.content.image) {
+            return (
+                <img className="ui fluid rounded image" src={this.props.clickedArticle.content.image.src} role="presentation"></img>
+            )
+        } else {
+            return(<div></div>)
+        }
+
+    }
+
     render(){
         if(!Object.prototype.hasOwnProperty.call(this.props.clickedArticle, '_id')){
             return(
@@ -79,7 +90,11 @@ class ArticleContainer extends Component{
                         <span style={{color: '#DB2828'}}><i className="bookmark icon"></i>Brief Description: </span>
                         <span style={{fontStyle: 'italic'}}>{description}</span>
                     </div>
-                    <div style={{marginTop: '20px'}}>{article_body}</div>
+                    <div style={{marginTop: '20px'}}>
+                        {this.imageItem()}
+                        <br />
+                        {article_body}
+                        </div>
                 </div>
             );
         }

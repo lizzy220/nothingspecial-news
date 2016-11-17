@@ -81,16 +81,17 @@ class HomeBodyContainer extends Component {
     refreshStatus() {
         if (this.state.refresh === true) {
             return (
-                <div style={{textAlign: "center"}}><i className="circular olive inverted spinner loading icon"></i></div>
+                <div style={{textAlign: "right"}}><i className="circular large olive spinner loading icon"></i></div>
             )
         } else {
             return (
-            <div style={{textAlign: "center"}}><Popup
-                trigger={<Icon inverted circular name='refresh' color='olive'/>}
-                content='Drag down to refresh'
-                positioning='bottom center'
-                size='tiny'
-            /></div>
+                <div style={{textAlign: "right", height: '2em', marginTop: '-0.5em', backgroundSize: 'auto 100%'}}><Popup
+                    trigger={<Icon circular name='refresh' color='olive' size="large"/>}
+                    content='Drag down to refresh'
+                    positioning='left center'
+                    size='mini'
+                />
+                </div>
             )
         }
     }
@@ -101,12 +102,11 @@ class HomeBodyContainer extends Component {
             return (
                 <Segment attached className='BodyContainer'>
                     <Grid divided>
-                        <Grid.Column width={4} style={{height: '91vh', overflowY: 'auto', overflowX: 'hidden'}}>
+                        <Grid.Column width={4} style={{height: '100vh', overflowY: 'auto', overflowX: 'hidden'}}>
                             <ReactPullToRefresh onRefresh={this.handleRefresh} distanceToRefresh={20} resistance={1}>
-                                <div>
-                                    {this.refreshStatus()}
-                                    <ArticleItemsList category='' clickedArticleId={this.props.clickedArticleId}
-                                                  articles={this.props.articles} onArticleClick={this.handleArticleClick}/></div>
+                                {this.refreshStatus()}
+                                <ArticleItemsList category='' clickedArticleId={this.props.clickedArticleId}
+                                                  articles={this.props.articles} onArticleClick={this.handleArticleClick}/>
                             </ReactPullToRefresh>
                         </Grid.Column>
                         <Grid.Column width={9}>
@@ -131,7 +131,7 @@ class HomeBodyContainer extends Component {
                         <Grid.Column width={4} style={{height: '91vh', overflowY: 'auto', overflowX: 'hidden'}}>
                             <ReactPullToRefresh onRefresh={this.handleRefresh} distanceToRefresh={20} resistance={1}>
                                 <div>{this.refreshStatus()}<ArticleItemsList category='' clickedArticleId={this.props.clickedArticleId}
-                                                  articles={this.props.articles} onArticleClick={this.handleArticleClick}/></div>
+                                                                             articles={this.props.articles} onArticleClick={this.handleArticleClick}/></div>
                             </ReactPullToRefresh>
                         </Grid.Column>
                         <Grid.Column width={9}>
