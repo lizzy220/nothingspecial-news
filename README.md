@@ -1,13 +1,15 @@
 # Module 3 group project #
-__Submitted by:__ _team_name_
+__Submitted by:__ _nothingspecial_
 
 __Team members:__
 
-- username@umn.edu
-- username@umn.edu
-- ...
+- Xi Chen      : chen4656@umn.edu
+- Vas Grin     : grin0098@umn.edu
+- Yangyun Li   : lixx3524@umn.edu
+- Wei Ni       : nixxx169@umn.edu
+- Yangyang Tang: tangx668@umn.edu
 
-__Heroku URL:__ _url_
+__Heroku URL:__ [NothingSpecialNews](https://nothingspecialnews.herokuapp.com/)
 
 __Argument of ambition (optional, maximum 100 words):__
 _Briefly argue why this was a technically ambitious project_
