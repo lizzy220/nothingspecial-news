@@ -48,7 +48,7 @@ class ArticleContainer extends Component{
     }
 
     newDescription(description){
-      this.props.newDescription(description);
+        this.props.newDescription(description);
     }
 
     render(){
@@ -108,25 +108,25 @@ class SaveOrDeleteIcon extends Component{
     }
 
     newDescription(){
-      this.props.newDescription(this.refs.descriptionInput.value);
-      var self = this;
-      var data = {'description': self.refs.descriptionInput.value};
-      request
-          .post('/api/newDescription/' + self.props.clickedArticleId)
-          .send(data)
-          .set('Accept', 'application/json')
-          .end(function(err, res){
-              if (err || !res.ok) {
-                  console.log('new description fail');
-              } else {
-                  console.log('new description successfully');
-              }
-          });
-      this.close();
+        this.props.newDescription(this.refs.descriptionInput.value);
+        var self = this;
+        var data = {'description': self.refs.descriptionInput.value};
+        request
+            .post('/api/newDescription/' + self.props.clickedArticleId)
+            .send(data)
+            .set('Accept', 'application/json')
+            .end(function(err, res){
+                if (err || !res.ok) {
+                    console.log('new description fail');
+                } else {
+                    console.log('new description successfully');
+                }
+            });
+        this.close();
     }
 
     render(){
-        if(this.context.location.pathname === '/home'){
+        if(this.context.location.pathname !== '/userAccount'){
             var color = 'olive'
             var tooltip = "click to save"
             if (this.props.saved) {
@@ -144,18 +144,18 @@ class SaveOrDeleteIcon extends Component{
             );
         }else{
             if(this.props.category === 'saved'){
-              return(
-                  <Popup
-                      trigger={<Icon circular name='trash' color='green' onClick={this.deleteArticle}/>}
-                      content='click to delete'
-                      positioning='bottom center'
-                      size='tiny'
-                  />
-              );
+                return(
+                    <Popup
+                        trigger={<Icon circular name='trash' color='green' onClick={this.deleteArticle}/>}
+                        content='click to delete'
+                        positioning='bottom center'
+                        size='tiny'
+                    />
+                );
             }else{
-              const { open, dimmer } = this.state;
-              return(
-                <span>
+                const { open, dimmer } = this.state;
+                return(
+                    <span>
                   <Popup
                       trigger={<Icon circular name='trash' color='green' onClick={this.deleteArticle}/>}
                       content='click to delete'
@@ -186,7 +186,7 @@ class SaveOrDeleteIcon extends Component{
                       </Modal.Actions>
                   </Modal>
                 </span>
-              );
+                );
             }
         }
     }

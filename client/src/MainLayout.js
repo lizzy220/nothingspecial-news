@@ -4,6 +4,7 @@ import HeaderBar from './HeaderBar';
 import request from 'superagent';
 import jwtDecode from 'jwt-decode';
 import update from 'react-addons-update';
+import { browserHistory } from 'react-router'
 
 class MainLayout extends Component {
     constructor(){
@@ -46,8 +47,17 @@ class MainLayout extends Component {
       this.setState({comments: this.state.comments.concat(newComment)});
     }
 
-    handleArticleClick(articleId){
+    handleArticleClick(articleId, category){
         if(articleId !== ''){
+            if (category ) {
+                browserHistory.push('/userAccount/' + category + "/" + articleId);
+            } else {
+                browserHistory.push('/article/'+articleId);
+            }
+            this.setState({clickedArticleId: articleId,
+                comments: [],
+                saved: false,
+                clickedArticle: {}});
             var self = this;
             const data = {'username': jwtDecode(localStorage.jwtToken).username}
             request

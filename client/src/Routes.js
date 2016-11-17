@@ -16,12 +16,15 @@ import LoginPage from './LoginPage';
 
 
 export default (
-  <Router history={browserHistory}>
-    <Route component={MainLayout}>
-      <Route path="/home" component={HomeBodyContainer}   style={{height: "100%"}}/>
-      <Route path="/userAccount" component={UserAccountBodyContainer}/>
-    </Route>
-    <Route path="/" component={LoginPage}/>
-    <Route path="/signup" component={SignupPage}/>
-  </Router>
+    <Router history={browserHistory}>
+        <Route component={MainLayout}>
+            <Route path="/home" component={HomeBodyContainer} style={{height: "100%"}}/>
+            <Route path="/article/:articleId" component={HomeBodyContainer} style={{height: "100%"}}/>
+            <Route path="/userAccount" component={UserAccountBodyContainer}/>
+            <Route path="/userAccount/:activeCollection" component={UserAccountBodyContainer}/>
+            <Route path="/userAccount/:activeCollection/:articleId" component={UserAccountBodyContainer}/>
+        </Route>
+        <Route path="/" component={LoginPage}/>
+        <Route path="/signup" component={SignupPage}/>
+    </Router>
 )
