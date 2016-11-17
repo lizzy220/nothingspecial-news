@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import {PostSavedList, ArticleItemsList} from './ArticleList';
 import CommentContainer from './CommentContainer'
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment,Popup, Icon} from 'semantic-ui-react';
 import request from 'superagent';
 import ArticleContainer from './ArticleContainer';
 import jwtDecode from 'jwt-decode';
+import ReactPullToRefresh from "react-pull-to-refresh";
 
-class HomeBodyContainer extends Component{
-    constructor(props){
+class HomeBodyContainer extends Component {
+    constructor(props) {
         super(props);
-        this.handleArticleClick=this.handleArticleClick.bind(this);
-        this.handleArticlesLoad=this.handleArticlesLoad.bind(this);
-        this.handleNewComment=this.handleNewComment.bind(this);
+        this.handleArticleClick = this.handleArticleClick.bind(this);
+        this.handleArticlesLoad = this.handleArticlesLoad.bind(this);
+        this.handleNewComment = this.handleNewComment.bind(this);
         this.saveArticle = this.saveArticle.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this);
+        this.state = {refresh: false}
     }
 
     componentDidMount() {
@@ -20,7 +23,7 @@ class HomeBodyContainer extends Component{
         request
             .get('/api/articles/search')
             .set('Accept', 'application/json')
-            .end(function(err, res) {
+            .end(function (err, res) {
                 if (err || !res.ok) {
                     console.log('fail to load initial list', err);
                 } else {
@@ -33,19 +36,41 @@ class HomeBodyContainer extends Component{
             });
     }
 
-    componentWillUnmount(){
+    handleRefresh(resolve, reject) {
+        var self = this;
+        self.setState({refresh: true});
+        request
+            .get('/api/articles/search')
+            .set('Accept', 'application/json')
+            .end(function (err, res) {
+                if (err || !res.ok) {
+                    console.log('fail to load initial list', err);
+                    reject();
+                } else {
+                    self.setState({refresh: false});
+                    if (self.props.params.articleId) {
+                        self.handleArticleClick(self.props.params.articleId);
+                    }
+                    self.handleArticlesLoad(res.body);
+                    resolve();
+                }
+
+            });
+    }
+
+    componentWillUnmount() {
         this.handleArticleClick('');
     }
 
-    handleArticlesLoad(articles){
+    handleArticlesLoad(articles) {
         this.props.onArticlesLoad(articles);
     }
 
-    handleArticleClick(articleId, category){
+    handleArticleClick(articleId, category) {
         this.props.onArticleClick(articleId);
     }
 
-    handleNewComment(newComment){
+    handleNewComment(newComment) {
         this.props.onNewComment(newComment);
     }
 
@@ -53,24 +78,77 @@ class HomeBodyContainer extends Component{
         this.props.onSaveArticle();
     }
 
-    render(){
-        return(
-            <Segment attached className='BodyContainer'>
-                <Grid divided >
-                    <Grid.Column width={4} style={{height:'91vh', overflowY: 'auto', overflowX:'hidden'}}>
-                        <ArticleItemsList category='' clickedArticleId={this.props.clickedArticleId} articles={this.props.articles} onArticleClick={this.handleArticleClick} />
-                    </Grid.Column>
-                    <Grid.Column width={9}>
-                        <Segment basic>
-                            <ArticleContainer saved={this.props.saved} onSaveArticle={this.saveArticle} clickedArticleId={this.props.clickedArticleId} clickedArticle={this.props.clickedArticle} />
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column width={3}>
-                        <CommentContainer clickedArticleId={this.props.clickedArticleId} onNewComment={this.handleNewComment} comments={this.props.comments}/>
-                    </Grid.Column>
-                </Grid>
-            </Segment>
-        );
+    refreshStatus() {
+        if (this.state.refresh === true) {
+            return (
+                <div style={{textAlign: "center"}}><i className="circular olive inverted spinner loading icon"></i></div>
+            )
+        } else {
+            return (
+            <div style={{textAlign: "center"}}><Popup
+                trigger={<Icon inverted circular name='refresh' color='olive'/>}
+                content='Drag down to refresh'
+                positioning='bottom center'
+                size='tiny'
+            /></div>
+            )
+        }
+    }
+
+    render() {
+
+        if (this.props.clickedArticleId) {
+            return (
+                <Segment attached className='BodyContainer'>
+                    <Grid divided>
+                        <Grid.Column width={4} style={{height: '91vh', overflowY: 'auto', overflowX: 'hidden'}}>
+                            <ReactPullToRefresh onRefresh={this.handleRefresh} distanceToRefresh={20} resistance={1}>
+                                <div>
+                                    {this.refreshStatus()}
+                                    <ArticleItemsList category='' clickedArticleId={this.props.clickedArticleId}
+                                                  articles={this.props.articles} onArticleClick={this.handleArticleClick}/></div>
+                            </ReactPullToRefresh>
+                        </Grid.Column>
+                        <Grid.Column width={9}>
+                            <Segment basic>
+                                <ArticleContainer saved={this.props.saved} onSaveArticle={this.saveArticle}
+                                                  clickedArticleId={this.props.clickedArticleId}
+                                                  clickedArticle={this.props.clickedArticle}/>
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column width={3}>
+                            <CommentContainer clickedArticleId={this.props.clickedArticleId}
+                                              onNewComment={this.handleNewComment} comments={this.props.comments}/>
+                        </Grid.Column>
+                    </Grid>
+                </Segment>
+
+            );
+        } else {
+            return (
+                <Segment attached className='BodyContainer'>
+                    <Grid divided>
+                        <Grid.Column width={4} style={{height: '91vh', overflowY: 'auto', overflowX: 'hidden'}}>
+                            <ReactPullToRefresh onRefresh={this.handleRefresh} distanceToRefresh={20} resistance={1}>
+                                <div>{this.refreshStatus()}<ArticleItemsList category='' clickedArticleId={this.props.clickedArticleId}
+                                                  articles={this.props.articles} onArticleClick={this.handleArticleClick}/></div>
+                            </ReactPullToRefresh>
+                        </Grid.Column>
+                        <Grid.Column width={9}>
+                            <Segment basic>
+                                <ArticleContainer saved={this.props.saved} onSaveArticle={this.saveArticle}
+                                                  clickedArticleId={this.props.clickedArticleId}
+                                                  clickedArticle={this.props.clickedArticle}/>
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column width={3}>
+
+                        </Grid.Column>
+                    </Grid>
+                </Segment>
+
+            );
+        }
     }
 }
 

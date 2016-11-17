@@ -38,13 +38,52 @@ class HeaderBar extends Component{
       this.props.onNewPost(newArticle);
     }
 
-    handleHomeRedirect () {
-          window.location.href = "/home";
-    }
-
     logout(){
       localStorage.removeItem('jwtToken');
     }
+
+    homeItem() {
+        var location = window.location.href;
+        if (location.indexOf("/home") > 0) {
+            return (
+                <div className="active item" style={meue_item_style}><i className="home icon"></i>Home</div>
+            )
+        } else {
+            return (
+                <Link as='a' className='item' to='/home' style={meue_item_style}><i className="home icon"></i>Home</Link>
+            )
+        }
+    }
+
+    userAccountItem() {
+        var location = window.location.href;
+        if (location.indexOf("/userAccount") > 0) {
+            return (
+                <div className="active item" style={meue_item_style}><i className="user icon"></i>My Account</div>
+            )
+        } else {
+            return (
+                <Link as='a' className='item' to='/userAccount' style={meue_item_style}><i className="user icon"></i>My Account</Link>
+            )
+        }
+    }
+
+    searchboxItem(){
+        var location = window.location.href;
+        if (location.indexOf("/home") > 0) {
+            return (
+                <div className="ui icon input">
+                    <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
+                    <i className="search link icon"></i>
+                </div>
+            )
+        } else {
+            return (
+                <div className="item"></div>
+            )
+        }
+    }
+
 
     render(){
         return(
@@ -54,17 +93,12 @@ class HeaderBar extends Component{
                     Nothing Special
                 </span>
 
-                <Link as='a' className='item' to='/home' onClick={this.handleHomeRedirect} style={meue_item_style}><i className="home icon"></i>View All Articles</Link>
-
+                {this.homeItem()}
                 <AddPostModal onNewPost={this.handleNewPost}/>
                 <div className="right item">
-                  <div className="ui icon input">
-                    <input type="text" placeholder="Search..." ref="filterTextInput" onChange={this.handleChange} />
-                    <i className="search link icon"></i>
-                  </div>
+                    {this.searchboxItem()}
                 </div>
-
-                <Link as='a' className='item' to='/userAccount' style={meue_item_style}><i className="user icon"></i>My Account</Link>
+                {this.userAccountItem()}
                 <Link to="/" as='a' className="item"><i className="sign out icon large" onClick={this.logout}></i></Link>
 
             </div>

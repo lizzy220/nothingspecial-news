@@ -55,8 +55,7 @@ class ArticleContainer extends Component{
         if(!Object.prototype.hasOwnProperty.call(this.props.clickedArticle, '_id')){
             return(
                 <div>
-                    <h1>Nothing Special</h1>
-                    <div>Knowledge Has Never Been So Sexy!</div>
+
                 </div>
             );
         }else{

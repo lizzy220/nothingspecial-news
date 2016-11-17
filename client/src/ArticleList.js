@@ -33,6 +33,7 @@ var clickedStyle={
     width: '110%',
     marginLeft: '-5%',
     paddingLeft: '1em',
+    userSelect: 'none',
 }
 
 
@@ -47,7 +48,7 @@ class ArticleItem extends Component{
     }
 
     render(){
-        var tmp = this.props.clickedArticleId === this.props.articleInfo._id ? clickedStyle : {};
+        var tmp = this.props.clickedArticleId === this.props.articleInfo._id ? clickedStyle : {userSelect: 'none'};
         return(
             <div style={tmp} className="item" onClick={this.handleClick}>{this.props.articleInfo.title}</div>
         );
@@ -100,14 +101,14 @@ class PostSavedList extends Component{
             <Accordion activeIndex={activeIndex} onTitleClick={this.handleTitleClick}>
                 <Accordion.Title>
                     <Icon name='dropdown' />
-                    Post Articles
+                    <b>Post Articles</b>
                 </Accordion.Title>
                 <Accordion.Content>
                     <ArticleItemsList category='post' clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.postArticles} />
                 </Accordion.Content>
                 <Accordion.Title>
                     <Icon name='dropdown' />
-                    Saved Articles
+                    <b>Saved Articles</b>
                 </Accordion.Title>
                 <Accordion.Content>
                     <ArticleItemsList category='saved' clickedArticleId={this.props.clickedArticleId} onArticleClick={this.handleArticleClick} articles={this.props.savedArticles} />

@@ -19,6 +19,7 @@ export default (
     <Router history={browserHistory}>
         <Route component={MainLayout}>
             <Route path="/home" component={HomeBodyContainer} style={{height: "100%"}}/>
+            <Route path="/home/:return" component={HomeBodyContainer} style={{height: "100%"}}/>
             <Route path="/article/:articleId" component={HomeBodyContainer} style={{height: "100%"}}/>
             <Route path="/userAccount" component={UserAccountBodyContainer}/>
             <Route path="/userAccount/:activeCollection" component={UserAccountBodyContainer}/>

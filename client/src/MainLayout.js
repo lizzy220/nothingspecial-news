@@ -16,7 +16,7 @@ class MainLayout extends Component {
             clickedArticle: {},
             comments: [],
             saved: false,
-            refresh: true
+            refresh: this
         };
         this.handleArticlesLoad = this.handleArticlesLoad.bind(this);
         this.handlePostSavedArticlesLoad = this.handlePostSavedArticlesLoad.bind(this);
@@ -122,7 +122,6 @@ class MainLayout extends Component {
         return (
             <div className="MainLayout" style={{flex:'1'}}>
                 <HeaderBar onSearchInput={this.handleArticlesLoad} onNewPost={this.handleNewPost}/>
-
                 <main>
                     {this.props.children && React.cloneElement(this.props.children, {
                         articles: this.state.articles,
