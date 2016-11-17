@@ -63,7 +63,7 @@ function getdbAll(collection, callback) {
 //only return array of {_id:, title:}
 function getdbBySearchKey(collection, searchKey, callback) {
     var getResults = function(err, db) {
-        db.collection('Article').find({"title": {$regex: ".*" + searchKey + ".*"}}, { title: 1}).toArray(function(err, result){
+        db.collection('Article').find({"title": {$regex: ".*" + searchKey + ".*"}, "visible": true}, { title: 1}).toArray(function(err, result){
             if (err) {
                 console.log(err);
             } else if (result.length) {

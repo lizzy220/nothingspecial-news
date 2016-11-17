@@ -140,7 +140,7 @@ class SaveOrDeleteIcon extends Component{
     }
 
     render(){
-        if(this.context.location.pathname !== '/userAccount'){
+        if(this.context.location.pathname.indexOf('/userAccount') === -1){
             var color = 'olive'
             var tooltip = "click to save"
             if (this.props.saved) {
