@@ -13,7 +13,8 @@ class LoginForm extends React.Component {
       username: '',
       password:'',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      signupMes: localStorage.signup
     }
 
     this.onChange = this.onChange.bind(this);
@@ -45,9 +46,12 @@ class LoginForm extends React.Component {
 
   render() {
     const errors = this.state.errors;
+    localStorage.removeItem('signup');
+    const signupMes = this.state.signupMes;
     return (
       <form className="ui form" onSubmit={this.onSubmit}>
         <h1>Login</h1>
+        {signupMes && (!errors.form) && (!errors.username) && (!errors.password) && <div className="ui green message">{signupMes}</div>}
         {errors.form && <div className="ui red message">{errors.form}</div>}
         <div className="field">
           <label>Username</label>
