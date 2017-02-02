@@ -255,7 +255,7 @@ router.post('/comments/new/:id', function(req, res){
 function get_article_content(article, callback) {
     var https = require('https');
     return https.get({
-        host: 'shutupandgivemethecontent.herokuapp.com',
+        host: 'juicer.herokuapp.com/',
         path: '/api/article?url=' + article['url']
 
     }, function(response) {
