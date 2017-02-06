@@ -7,3 +7,8 @@ __Team members:__
 - Vas Grin     : grin0098@umn.edu
 
 __Heroku URL:__ [NothingSpecialNews](https://nothingspecialnews.herokuapp.com/)
+
+__Key Components:__
+
+- Frameworks: React, Express, MongoDB
+- Two servers: one server interacts with client and requests the other server to extract AD-free content from webpage according URL provided by user. 
